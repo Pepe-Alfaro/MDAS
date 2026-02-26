@@ -8,10 +8,14 @@ public class main {
         Menu menuLocal = factoryLocal.crearMenuSemanal(Acompanamiento.PATATAS);
         
         imprimirMenu(menuLocal);
+        //Ejemplo para probar TakeAway
+        Plato principal = new Plato("Ensalada César", TipoPlato.ENTRANTE, 8.50, Acompanamiento.NINGUNO);
+        Plato entrante = new Plato("Entrecot de ternera", TipoPlato.ENTRANTE, 15.00, Acompanamiento.PATATAS);
+
 
         System.out.println("\n--- PEDIDO PARA LLEVAR ---");
         // 2. Probamos el pedido Para Llevar (TakeAway)
-        FactoriaAbstracta factoryLlevar = new FactoriaTakeAway();
+        FactoriaAbstracta factoryLlevar = new FactoriaTakeAway(principal,entrante);
         Menu menuLlevar = factoryLlevar.crearMenuSemanal(Acompanamiento.ENSALADA);
         
         imprimirMenu(menuLlevar);
