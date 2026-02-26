@@ -1,5 +1,5 @@
 package abstractfactory;
 
-public class FactoriaLocal {
+public class Temporada {
     
 }

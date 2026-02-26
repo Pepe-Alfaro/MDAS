@@ -1,5 +1,5 @@
 package abstractfactory;
 
-public class PlatoMenuLlevar {
+public class Semanal {
     
 }

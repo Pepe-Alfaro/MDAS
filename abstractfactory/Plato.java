@@ -1,5 +1,5 @@
 package abstractfactory;
 
-public class PlatoTemporada {
+public class Plato {
     
 }
