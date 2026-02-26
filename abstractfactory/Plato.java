@@ -37,7 +37,7 @@ public class Plato {
         this.tipo = tipo;
     }
     
-    public void setPrecio(float precio){
+    public void setPrecio(double precio){
         this.precio = precio;
     }
 
