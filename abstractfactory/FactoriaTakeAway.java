@@ -2,11 +2,11 @@ package abstractfactory;
 
 public class FactoriaTakeAway {
 
-    private Menu menu;
+  
     private Plato plato;
     
-    public FactoriaTakeAway(Menu menu, Plato plato){
-        this.menu = menu;
+    public FactoriaTakeAway(Plato plato){
+       
         this.plato = plato;
     }
 
@@ -15,10 +15,9 @@ public class FactoriaTakeAway {
         plato.setSide(Side);
         double precioTW = plato.getPrecio()*0.02;
         plato.setPrecio(precioTW);
-        //menu
-        menu.addPlato(plato);
-        
-
+      
+        Semanal PlatoSemanal = new Semanal(plato);
+        return PlatoSemanal;
        
         
     }
