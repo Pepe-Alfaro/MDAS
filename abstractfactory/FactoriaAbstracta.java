@@ -1,7 +1,7 @@
 package abstractfactory;
 
-public interface FactoriaAbstracta {
-    public Plato crearPlato();
-    public Temporada crearTemporada();
-    public Semanal crearSemanal();
+public abstract class FactoriaAbstracta {
+
+    public abstract Menu crearMenuSemanal(Acompanamiento side);
+    public abstract Menu crearMenuTemporada(Acompanamiento side);
 }
