@@ -1,5 +1,7 @@
 package abstractfactory;
 
-public class Acompanamiento {
-    
+enum Acompanamiento {
+    ENSALADA,
+    PATATAS,
+    NINGUNO
 }
