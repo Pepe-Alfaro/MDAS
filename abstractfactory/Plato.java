@@ -16,8 +16,13 @@ public class Plato {
     }
 
     public String getName(){
-
+        return nombre;
     }
     
+    public TipoPlato getType(){
+        return tipo;
+    }
+
+    public getPrice
 
 }
