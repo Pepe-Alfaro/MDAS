@@ -1,35 +1,42 @@
 package abstractfactory;
 
-public class FactoriaTakeAway {
+public class FactoriaTakeAway extends FactoriaAbstracta {
+    private Plato entrante;
+    private Plato principal;
 
-  
-    private Plato plato;
+    public FactoriaTakeAway(Plato e, Plato p) {
+        this.entrante = e;
+        this.principal = p;
+    }
+
+    @Override
+    public Semanal crearMenuSemanal(Acompanamiento side) {
+        
+        principal.setSide(side);
+
+        
+        entrante.setPrecio(entrante.getPrecio() * 1.02);
+        principal.setPrecio(principal.getPrecio() * 1.02);
+
     
-    public FactoriaTakeAway(Plato plato){
-       
-        this.plato = plato;
+        Semanal menu = new Semanal(entrante);
+        menu.addPlato(principal);
+
+        return menu;
     }
 
-    public Semanal crearMenuSemanal(Acompanamiento Side){
+    @Override
+    public Temporada crearMenuTemporada(Acompanamiento side){
+          principal.setSide(side);
+
         
-        plato.setSide(Side);
-        double precioTW = plato.getPrecio()*0.02;
-        plato.setPrecio(precioTW);
-      
-        Semanal PlatoSemanal = new Semanal(plato);
-        return PlatoSemanal;
-       
-        
+        entrante.setPrecio(entrante.getPrecio() * 1.02);
+        principal.setPrecio(principal.getPrecio() * 1.02);
+
+    
+        Temporada menu = new Temporada(entrante);
+        menu.addPlato(principal);
+
+        return menu;
     }
-
-    public Temporada crearMenuTemporada(Acompanamiento Side){
-        plato.setSide(Side);
-        double precioTW = plato.getPrecio()*0.02;
-        plato.setPrecio(precioTW);
-      
-        Temporada PlatoSemanal = new Temporada(plato);
-        return PlatoSemanal;
-    }
-
-
 }
