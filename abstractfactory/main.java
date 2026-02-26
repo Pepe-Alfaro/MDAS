@@ -1,6 +1,6 @@
 package abstractfactory;
 
-public class Main {
+public class main {
     public static void main(String[] args) {
         // 1. Probamos el pedido en el Restaurante (Local)
         System.out.println("--- PEDIDO EN LOCAL ---");
