@@ -13,11 +13,11 @@ public class Plato {
         this.side = side;
     }
 
-    public String getName(){
+    public String getNombre(){
         return nombre;
     }
     
-    public TipoPlato getType(){
+    public TipoPlato getTipo(){
         return tipo;
     }
 
@@ -29,8 +29,20 @@ public class Plato {
         return side;
     }
 
-    public void setName(String nombre){
+    public void setNombre(String nombre){
         this.nombre = nombre;
+    }
+
+    public void setTipo(TipoPlato tipo){
+        this.tipo = tipo;
+    }
+    
+    public void setPrecio(float precio){
+        this.precio = precio;
+    }
+
+    public void setSide(Acompanamiento side){
+        this.side = side;
     }
 
 }
