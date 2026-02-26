@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 package abstractfactory;
 
 public class Plato {
@@ -23,7 +21,7 @@ public class Plato {
         return tipo;
     }
 
-    public double getPrice(){
+    public double getPrecio(){
         return precio;
     }
 
@@ -36,4 +34,3 @@ public class Plato {
     }
 
 }
->>>>>>> 28908dbe255bb60de52f3cf14f6910d5dcce5717
