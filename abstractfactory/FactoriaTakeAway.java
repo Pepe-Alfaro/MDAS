@@ -11,7 +11,7 @@ public class FactoriaTakeAway {
     }
 
     public Semanal crearMenuSemanal(Acompanamiento Side){
-        //plato
+        
         plato.setSide(Side);
         double precioTW = plato.getPrecio()*0.02;
         plato.setPrecio(precioTW);
