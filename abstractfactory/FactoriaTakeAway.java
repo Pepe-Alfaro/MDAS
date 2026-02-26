@@ -21,4 +21,15 @@ public class FactoriaTakeAway {
        
         
     }
+
+    public Temporada crearMenuTemporada(Acompanamiento Side){
+        plato.setSide(Side);
+        double precioTW = plato.getPrecio()*0.02;
+        plato.setPrecio(precioTW);
+      
+        Temporada PlatoSemanal = new Temporada(plato);
+        return PlatoSemanal;
+    }
+
+
 }
