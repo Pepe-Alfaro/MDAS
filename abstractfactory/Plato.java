@@ -3,16 +3,14 @@ package abstractfactory;
 public class Plato {
     private String nombre;
     private TipoPlato tipo;
-    private float precio;
-    private float incremento; 
+    private double precio;
     private Acompanamiento side;
 
-    public Plato(String nombre, TipoPlato tipo, float precio, float incremento, Acompanamiento side){
-        nombre = this.nombre;
-        tipo = this.tipo;
-        precio = this.precio;
-        incremento = this.incremento;
-        side = this.side;
+    public Plato(String nombre, TipoPlato tipo, double precio,  Acompanamiento side){
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.precio = precio;
+        this.side = side;
     }
 
     public String getName(){
@@ -23,6 +21,16 @@ public class Plato {
         return tipo;
     }
 
-    public getPrice
+    public double getPrice(){
+        return precio;
+    }
+
+    public Acompanamiento getSide(){
+        return side;
+    }
+
+    public void setName(String nombre){
+        this.nombre = nombre;
+    }
 
 }
