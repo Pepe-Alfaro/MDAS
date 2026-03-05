@@ -1,8 +1,8 @@
 package abstractfactory;
-
+import java.util.List;
 public class Temporada extends Menu {
 
-    public Temporada(Plato plato) {
+    public Temporada(List<Plato> plato) {
         super(plato);
     }
 

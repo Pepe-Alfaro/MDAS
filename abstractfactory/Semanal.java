@@ -1,10 +1,10 @@
 package abstractfactory;
-
+import java.util.List;
 public class Semanal extends Menu {
 
     // Constructor que recibe el primer plato
-    public Semanal(Plato plato) {
-        super(plato);
+    public Semanal(List<Plato> platos) {
+        super(platos);
     }
 
     @Override
