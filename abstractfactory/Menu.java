@@ -6,13 +6,14 @@ public abstract class Menu {
 
     private List<Plato> platos;
     
-    public Menu(Plato plato) {
+    public Menu(List<Plato> plato) {
         this.platos = new ArrayList<Plato>();
-        this.platos.add(plato);
+        
     }
 
     public void addPlato(Plato plato) {
         this.platos.add(plato);
+        
     }
 
     public double calcularPrecioTotal(){
