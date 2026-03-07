@@ -22,7 +22,7 @@ public class Plato {
     }
 
     public double getPrecio(){
-        return precio;
+        return precio; 
     }
 
     public Acompanamiento getSide(){
