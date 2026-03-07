@@ -6,7 +6,7 @@ public class main {
     MaquetadorBasico miMaquetador = new MaquetadorBasico();
 
     //1ª Prueba
-    File fichero = new File("/home/i32maloe/TERCERO/2Cuatri/MDAS/Adapter/prueba.txt");
+    File fichero = new File("pruebas/prueba.txt");
     miMaquetador.AnadirTexto(fichero, "Si funciona menos mal");
 
     //2ª Prueba

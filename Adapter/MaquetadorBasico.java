@@ -50,8 +50,8 @@ public String Extraer(File fichero,int inicio, int fin){
 public void Dividir(File fichero, int division){
 
     try(BufferedReader lineas = new BufferedReader(new FileReader(fichero));
-        FileWriter fich1 = new FileWriter("parte1_"+fichero.getName(),false );
-        FileWriter fich2 = new FileWriter("parte2_"+fichero.getName(),false)){
+        FileWriter fich1 = new FileWriter("pruebas/parte1_"+fichero.getName(),false );
+        FileWriter fich2 = new FileWriter("pruebas/parte2_"+fichero.getName(),false)){
 
         String leido;
         int cont = 1;
