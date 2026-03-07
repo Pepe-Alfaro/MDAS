@@ -9,7 +9,7 @@ public Semanal crearMenuSemanal(List<Plato>platos,Acompanamiento side){
         if( plato.getTipo() == TipoPlato.PRINCIPAL ){
             plato.setSide(side);
         };
-        precio = plato.getPrecio()*1.02;
+        double precio = plato.getPrecio()*1.02;
         plato.setPrecio(precio);
 
     }
@@ -26,7 +26,7 @@ public Temporada crearMenuTemporada(List<Plato> platos, Acompanamiento side){
         if(plato.getTipo() == TipoPlato.PRINCIPAL){
             plato.setSide(side); 
         }
-        precio = plato.getPrecio()*1.02;
+        double precio = plato.getPrecio()*1.02;
         plato.setPrecio(precio);
     }
     

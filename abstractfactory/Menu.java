@@ -7,7 +7,7 @@ public abstract class Menu {
     private List<Plato> platos;
     
     public Menu(List<Plato> plato) {
-        this.platos = new ArrayList<Plato>();
+        this.platos = plato;
         
     }
 
