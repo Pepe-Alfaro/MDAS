@@ -6,7 +6,7 @@ public class main {
     MaquetadorBasico MaquetadorBa = new MaquetadorBasico();
     MaquetadorAdapter MaquetadorAd = new MaquetadorAdapter();
 
-    /*//PRUEBAS MAQUETADOR_BASICO
+    //PRUEBAS MAQUETADOR_BASICO
     //1ª Prueba -- AñadirTexto
     File fichero = new File("pruebas/prueba.txt");
     MaquetadorBa.AnadirTexto(fichero, "Si funciona menos mal");
@@ -23,12 +23,12 @@ public class main {
     
     //1ª Prueba -- Unirficheros
     MaquetadorAd.UnirFicheros(fichero, fichero2);
-    */
-    //2ª Prueba -- CombinarFicheros
-    File fichero = new File("pruebas/fich1.txt");
-    File fichero2 = new File("pruebas/fich2.txt");
-    MaquetadorAd.CombinarFicheros(fichero, fichero2, 1,5 );
     
+    //2ª Prueba -- CombinarFicheros
+     fichero = new File("pruebas/fich1.txt");
+     fichero2 = new File("pruebas/fich2.txt");
+    MaquetadorAd.CombinarFicheros(fichero, fichero2, 1,5 );
+
 
 
 
