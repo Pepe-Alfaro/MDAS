@@ -1,0 +1,4 @@
+Probando el MaquetadorAdapter
+funcionando
+copiame el texto
+ponlo al final
