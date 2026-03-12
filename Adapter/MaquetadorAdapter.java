@@ -2,7 +2,9 @@ import java.io.File;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.FileReader;
-
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MaquetadorAdapter implements IMaquetadorAvanzado{
 
@@ -25,6 +27,16 @@ public class MaquetadorAdapter implements IMaquetadorAvanzado{
 
     return cont;
         
+    }
+
+    private void Ordenar(int array[]){
+        int i = 0;
+        int min = array[0];
+
+
+        for(int el : array){
+            
+        }
     }
 
     public MaquetadorAdapter(){
@@ -120,8 +132,17 @@ public class MaquetadorAdapter implements IMaquetadorAvanzado{
     }
 
     @Override
-    public void SepararFicheros(File fichero1, File fichero2, int division){
+    public void SepararFicheros(File fichero1, int... divisiones){
+        
+    
+        for(int division : divisiones){
+
+            
+        }
+
+        
 
     }
 
 }
+
