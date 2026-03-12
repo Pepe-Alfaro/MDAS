@@ -50,7 +50,7 @@ public String Extraer(File fichero,int inicio, int fin){
         }
 
     }catch(IOException e){
-        System.out.println("Error en la fucnion Extraer\n");
+        System.out.println("Error en la funcion Extraer\n");
     }
     return parrafo;
 }

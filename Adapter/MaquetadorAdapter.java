@@ -29,15 +29,8 @@ public class MaquetadorAdapter implements IMaquetadorAvanzado{
         
     }
 
-    private void Ordenar(int array[]){
-        int i = 0;
-        int min = array[0];
-
-
-        for(int el : array){
-            
-        }
-    }
+    
+    
 
     public MaquetadorAdapter(){
         this.maquetador = new MaquetadorBasico();
@@ -133,14 +126,35 @@ public class MaquetadorAdapter implements IMaquetadorAvanzado{
 
     @Override
     public void SepararFicheros(File fichero1, int... divisiones){
-        
-    
-        for(int division : divisiones){
+        MaquetadorAdapter maqueta = new MaquetadorAdapter();
+        int inicio;
+        int fin;
+        Arrays.sort(divisiones);
+        int n = divisiones.length;
 
-            
+        String texto = maquetador.Extraer(fichero1, 1, divisiones[0]-1);
+        File fichero = new File("pruebas/Separar-1_"+fichero1.getName());
+        maquetador.AnadirTexto(fichero, texto);
+
+
+        for(int i = 0 ; i < n-1 ; i++){
+        inicio = divisiones[i];
+        fin = divisiones[i+1]-1;
+        
+        texto = maquetador.Extraer(fichero1, inicio, fin);
+        fichero = new File("pruebas/Separar-"+(i+2)+"_"+fichero1.getName());
+        maquetador.AnadirTexto(fichero, texto);
+
         }
 
+        if(divisiones[n-1] <= maqueta.ContarLineas(fichero1)){
+        texto = maquetador.Extraer(fichero1, divisiones[n-1],Integer.MAX_VALUE );
+        fichero = new File("pruebas/Seperar-"+(divisiones.length+1)+"_"+fichero1.getName());
+        maquetador.AnadirTexto(fichero, texto);
         
+        }else{
+            System.out.println("El último fichero no se creará ya que el corte "+ divisiones[n-1] +" es mayor al numero de lineas del fichero\n");
+        }
 
     }
 
