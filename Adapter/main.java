@@ -28,7 +28,10 @@ public class main {
      fichero = new File("pruebas/fich1.txt");
      fichero2 = new File("pruebas/fich2.txt");
     MaquetadorAd.CombinarFicheros(fichero, fichero2, 1,5 );
-
+     
+    //3ª Prueba -- SepararFicheros
+     fichero = new File("pruebas/fich1.txt");
+    MaquetadorAd.SepararFicheros(fichero, 20,6,12);
 
 
 
