@@ -1,23 +1,46 @@
 package bridge;
+public abstract class Producto {
+    private String id;
+    private String nombre;
+    private double precio;
+    private int unidadesDisponibles;
+    private String material;
+    private String color;
 
-public class Producto {
-    public String nombre;
-    public double precio;
-    public int stock;
-
-    public Producto(String nombre, double precio, int stock) {
+    public Producto(String id, String nombre, double precio, int unidadesDisponibles, String material, String color) {
+        this.id = id;
         this.nombre = nombre;
         this.precio = precio;
-        this.stock = stock;
+        this.unidadesDisponibles = unidadesDisponibles;
+        this.material = material;
+        this.color = color;
     }
-    public String getNombre() {
-        return nombre;
+
+    public String getId() { 
+        return id; 
     }
-    public double getPrecio() {
-        return precio;
+    public String getNombre() { 
+        return nombre; 
     }
-    public int getStock() {
-        return stock;   
+    public double getPrecio() { 
+        return precio; 
+    }
+    public int getUnidadesDisponibles() { 
+        return unidadesDisponibles; 
+    }
+    public String getMaterial() { 
+        return material; 
+    }
+    public String getColor() { 
+        return color; 
+    }
+
+    public void setUnidadesDisponibles(int unidadesDisponibles) {
+        this.unidadesDisponibles = unidadesDisponibles;
     }
     
+    @Override
+    public String toString() {
+        return nombre + " (Precio: " + precio + "€, Stock: " + unidadesDisponibles + ")";
+    }
 }
