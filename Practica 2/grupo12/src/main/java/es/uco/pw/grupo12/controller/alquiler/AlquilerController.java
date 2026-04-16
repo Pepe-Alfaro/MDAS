@@ -61,17 +61,18 @@ public class AlquilerController {
         }
 
         // 2. Validar fechas 
-        long dias = ChronoUnit.DAYS.between(fechaInicio, fechaFin) + 1;
-        int mes = fechaInicio.getMonthValue();
-        boolean esTemporadaAlta = (mes >= 5 && mes <= 9);
+        // [Regla de Nombrado: Regla 1 - Nombre informa qué mide y unidad]
+        long duracionEnDias = ChronoUnit.DAYS.between(fechaInicio, fechaFin) + 1;
+        int mesInicioAlquiler = fechaInicio.getMonthValue();
+        boolean esTemporadaAlta = (mesInicioAlquiler >= 5 && mesInicioAlquiler <= 9);
 
         if (esTemporadaAlta) {
-            if (dias != 7 && dias != 14) {
+            if (duracionEnDias != 7 && duracionEnDias != 14) {
                 model.addAttribute("error", "En temporada alta (May-Sep) el alquiler debe ser de 1 o 2 semanas (7 o 14 días).");
                 return mostrarFormulario(model);
             }
         } else {
-            if (dias != 3) {
+            if (duracionEnDias != 3) {
                 model.addAttribute("error", "En temporada baja (Oct-Abr) el alquiler debe ser de 3 días.");
                 return mostrarFormulario(model);
             }
