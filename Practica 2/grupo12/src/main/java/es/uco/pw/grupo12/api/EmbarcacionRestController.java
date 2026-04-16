@@ -53,12 +53,13 @@ public class EmbarcacionRestController {
     // 2. Obtener la lista de embarcaciones según el tipo de embarcación.
      // /api/embarcaciones/tipo/{tipo}  (Ejemplo: /api/embarcaciones/tipo/VELERO) (GET)
 
+    // Cambio el nombre de la variable a nombreTipo para que sea más descriptiva. Aplicando la regla de nombrado 10.
     @GetMapping("/tipo/{tipo}")
-    public ResponseEntity<List<Embarcacion>> listarEmbarcacionesPorTipo(@PathVariable("tipo") String tipoStr) {
+    public ResponseEntity<List<Embarcacion>> listarEmbarcacionesPorTipo(@PathVariable("tipo") String nombreTipo) {
         try {
             // 1. Convertimos el texto que llega en la URL (ej: "VELERO") al Enum TipoEmbarcacion
             
-            TipoEmbarcacion tipo = TipoEmbarcacion.valueOf(tipoStr.toUpperCase());
+            TipoEmbarcacion tipo = TipoEmbarcacion.valueOf(nombreTipo.toUpperCase());
             
             // 2. Llamamos al método que YA existe
             List<Embarcacion> embarcaciones = embarcacionRepository.findByTipo(tipo);
