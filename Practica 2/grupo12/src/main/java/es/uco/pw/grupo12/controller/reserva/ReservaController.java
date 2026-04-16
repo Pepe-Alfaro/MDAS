@@ -101,9 +101,12 @@ public class ReservaController {
 
         // 7.Guardar reserva
         
-        // Calcular precio (40€ por persona)
-        double precioTotal = plazasSolicitadas * 40.0;
-
+        // [Regla de Nombrado: Regla 7 - Declarar variable para valor constante numérico]
+        final double PRECIO_POR_PLAZA = 40.0;
+        
+        // Calcular precio 
+        double precioTotal = plazasSolicitadas * PRECIO_POR_PLAZA;
+        
         Reserva nuevaReserva = new Reserva();
         nuevaReserva.setEmbarcacion(embarcacion);
         nuevaReserva.setSocioSolicitante(socio);
