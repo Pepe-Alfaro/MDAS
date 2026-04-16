@@ -100,17 +100,19 @@ public class InscripcionRestController {
     }
 
     // 2. Actualizar una inscripción individual para convertirla en una familiar (PUT).
+
+    //Se modifica la variable inscripcionDatos por inscripcionAModificar para evitar palabras generales. Aplicando la regla de nombrado 12
     @PutMapping("/{id}/familiar")
-    public ResponseEntity<?> convertirAFamiliar(@PathVariable("id") int id, @RequestBody Inscripcion inscripcionDatos) {
+        public ResponseEntity<?> convertirAFamiliar(@PathVariable("id") int id, @RequestBody Inscripcion inscripcionAModificar) {
         
-        if (inscripcionDatos.getCuota() <= 0) {
+        if (inscripcionAModificar.getCuota() <= 0) {
             return ResponseEntity.badRequest().body("Debe especificar una cuota válida mayor que 0.");
         }
 
-        boolean actualizado = inscripcionRepository.updateInscripcionAFamiliar(id, inscripcionDatos.getCuota());
+        boolean actualizado = inscripcionRepository.updateInscripcionAFamiliar(id, inscripcionAModificar.getCuota());
 
         if (actualizado) {
-            return ResponseEntity.ok("Inscripción " + id + " convertida a FAMILIAR correctamente. Nueva cuota: " + inscripcionDatos.getCuota());
+            return ResponseEntity.ok("Inscripción " + id + " convertida a FAMILIAR correctamente. Nueva cuota: " + inscripcionAModificar.getCuota());
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se pudo actualizar. Verifique que el ID de inscripción exista.");
         }
@@ -118,9 +120,11 @@ public class InscripcionRestController {
  
     // 3. Vincular a un nuevo miembro en una inscripción familiar (PATCH).
     @org.springframework.web.bind.annotation.PatchMapping("/{id}/vincular")
-    public ResponseEntity<?> vincularMiembro(@PathVariable("id") int idInscripcion, @RequestBody Socio socioDatos) {
+
+    // Se modifica la variable socioDatos por socioAVincular para evitar palabras generales. Aplicando la regla de nombrado 12
+    public ResponseEntity<?> vincularMiembro(@PathVariable("id") int idInscripcion, @RequestBody Socio socioAVincular) {
         
-        String dniNuevoMiembro = socioDatos.getDni();
+        String dniNuevoMiembro = socioAVincular.getDni();
         
         if (dniNuevoMiembro == null || dniNuevoMiembro.isEmpty()) {
             return ResponseEntity.badRequest().body("El DNI del socio es obligatorio.");
@@ -158,9 +162,9 @@ public class InscripcionRestController {
     
      // 4. Desvincular a un miembro de una inscripción familiar (PATCH).
     @org.springframework.web.bind.annotation.PatchMapping("/{id}/desvincular")
-    public ResponseEntity<?> desvincularMiembro(@PathVariable("id") int idInscripcion, @RequestBody Socio socioDatos) {
+    public ResponseEntity<?> desvincularMiembro(@PathVariable("id") int idInscripcion, @RequestBody Socio socioAVincular) {
         
-        String dniSocio = socioDatos.getDni();
+        String dniSocio = socioAVincular.getDni();
         
         if (dniSocio == null || dniSocio.isEmpty()) {
             return ResponseEntity.badRequest().body("El DNI del socio es obligatorio.");
