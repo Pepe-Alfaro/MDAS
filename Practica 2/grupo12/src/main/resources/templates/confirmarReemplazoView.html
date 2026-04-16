@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Confirmar Reemplazo</title>
+    <style th:replace="~{altaPatronView :: style}"></style>
+    <style>
+        .confirmacion { 
+            background-color: #fff8e1; 
+            border: 1px solid #ffecb3; 
+            padding: 15px; 
+            border-radius: 8px; 
+        }
+    </style>
+</head>
+<body>
+    <h1>Confirmar Reemplazo de Patrón</h1>
+
+    <div class="confirmacion">
+        <p>
+            La embarcación <strong th:text="${embarcacion.nombre}"></strong> 
+            ya tiene asignado al patrón con DNI <strong th:text="${embarcacion.patron.dni}"></strong>.
+        </p>
+        <p>
+            ¿Desea sustituirlo por el nuevo patrón 
+            <strong th:text="${patronNuevo.nombre + ' ' + patronNuevo.apellidos}"></strong> (DNI: <strong th:text="${patronNuevo.dni}"></strong>)?
+        </p>
+    </div>
+
+    <form th:action="@{/asociarPatron}" method="post" style="border:none; padding: 20px 0;">
+        <input type="hidden" name="matricula" th:value="${embarcacion.matricula}" />
+        <input type="hidden" name="dniPatron" th:value="${patronNuevo.dni}" />
+        <input type="hidden" name="confirmar" value="true" />
+        <button type="submit" style="background-color: #c82333; border-color: #bd2130;">Sí, Reemplazar</button>
+    </form>
+
+    <a href="/asociarPatron">Cancelar y volver</a>
+</body>
+</html>

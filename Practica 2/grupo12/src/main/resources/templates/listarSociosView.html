@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Listado de Socios</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        h1 { color: #004a99; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f0f5fa; color: #004a99; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        a {
+            text-decoration: none;
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        a:hover { background-color: #003d80; }
+        .link-volver { display: inline-block; margin-top: 20px; }
+        .boolean-si { color: green; font-weight: bold; }
+        .boolean-no { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Listado de Todos los Socios</h1>
+
+    <div th:if="${socios.isEmpty()}">
+        <p>No hay socios registrados en el sistema.</p>
+    </div>
+
+    <table th:unless="${socios.isEmpty()}">
+        <thead>
+            <tr>
+                <th>DNI</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Fecha Alta</th>
+                <th>Titular</th>
+                <th>Tiene Título Patrón</th>
+                <th>Dirección</th>
+                <th>Fecha Nacimiento</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="socio : ${socios}">
+                <td th:text="${socio.dni}">12345678A</td>
+                <td th:text="${socio.nombre}">Nombre</td>
+                <td th:text="${socio.apellidos}">Apellidos</td>
+                <td th:text="${#temporals.format(socio.fechaInscripcion, 'dd/MM/yyyy')}">15/10/2023</td>
+                
+                <td>
+                    <span th:if="${socio.esTitular}" class="boolean-si">Sí</span>
+                    <span th:unless="${socio.esTitular}" class="boolean-no">No</span>
+                </td>
+                
+                <td>
+                    <span th:if="${socio.tituloPatron}" class="boolean-si">Sí</span>
+                    <span th:unless="${socio.tituloPatron}" class="boolean-no">No</span>
+                </td>
+
+                <td th:text="${socio.direccion}">Calle Falsa 123</td>
+                <td th:text="${#temporals.format(socio.fechaNacimiento, 'dd/MM/yyyy')}">01/01/1990</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="/" class="link-volver">Volver al Inicio</a>
+
+</body>
+</html>

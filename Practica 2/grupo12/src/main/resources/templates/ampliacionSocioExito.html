@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ampliación Exitosa</title>
+</head>
+<body>
+    <h1>¡Inscripción Actualizada!</h1>
+    
+    <div th:if="${exito}" style="color: green; font-weight: bold;" th:text="${exito}"></div>
+    
+    <p>El nuevo miembro ha sido añadido y la cuota de la inscripción ha sido actualizada.</p>
+    
+    <br>
+    <a href="/ampliarInscripcion">Añadir otro familiar a otra inscripción</a>
+    <br>
+    <a href="/">Volver al inicio</a>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Alquilar Embarcación</title>
+    <style>
+        body { 
+            font-family: sans-serif; 
+            margin: 20px; 
+            background-color: #f4f7f6; /* Fondo suave */
+        }
+        
+        h1 {
+            color: #004a99; /* <-- ¡Aquí está el color "azulito" para el H1! */
+        }
+
+        form { 
+            max-width: 600px; 
+            border: 1px solid #ddd; 
+            padding: 20px; 
+            border-radius: 8px; 
+            background-color: #ffffff; /* Fondo blanco para el form */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra suave */
+        }
+        
+        div { 
+            margin-bottom: 15px; 
+        }
+        
+        label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+        }
+        
+        input, select { 
+            width: 95%; 
+            padding: 8px; 
+            margin-bottom: 10px; 
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        /* Estilo de error mejorado */
+        .error { 
+            color: #a94442;
+            background-color: #f2dede;
+            border: 1px solid #ebccd1;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold; 
+        }
+        
+        .lista-pasajeros { 
+            max-height: 150px; 
+            overflow-y: auto; 
+            border: 1px solid #ddd; 
+            padding: 5px; 
+        }
+
+        /* Estilo para el botón de envío */
+        button { 
+            padding: 10px 15px; 
+            background-color: #0056b3; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-size: 16px; 
+        }
+        button:hover { 
+            background-color: #003d80; 
+        }
+
+        /* Estilo para el enlace de "Volver" */
+        a {
+            text-decoration: none;
+            padding: 10px 15px;
+            background-color: #6c757d; /* Color gris */
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        a:hover { 
+            background-color: #5a6268; 
+        }
+    </style>
+</head>
+<body>
+    <h1>Alquilar Embarcación</h1>
+    <div th:if="${error}" class="error" th:text="${error}"></div>
+
+    <form method="POST" th:action="@{/alquilar/crear}">
+        <label>Socio Titular (Patrón):</label>
+        <select name="dniSocioTitular" required>
+            <option value="">-- Seleccionar --</option>
+            <option th:each="s : ${sociosConTitulo}" th:value="${s.dni}" th:text="${s.nombre + ' ' + s.apellidos}"></option>
+        </select>
+
+        <label>Embarcación:</label>
+        <select name="matriculaEmbarcacion" required>
+            <option value="">-- Seleccionar --</option>
+            <option th:each="e : ${embarcaciones}" th:value="${e.matricula}" th:text="${e.nombre + ' (Plazas: ' + e.plazas + ')'}"></option>
+        </select>
+
+        <label>Fecha Inicio:</label>
+        <input type="date" name="fechaInicio" required />
+
+        <label>Fecha Fin:</label>
+        <input type="date" name="fechaFin" required />
+
+        <label>Seleccionar Pasajeros (incluido titular):</label>
+        <div class="lista-pasajeros">
+            <div th:each="s : ${todosLosSocios}">
+                <input type="checkbox" name="dniSociosPasajeros" th:value="${s.dni}" />
+                <span th:text="${s.nombre + ' ' + s.apellidos}"></span>
+            </div>
+        </div>
+
+        <button type="submit">Realizar Alquiler</button>
+    </form>
+    <br><a href="/">Volver</a>
+</body>
+</html>

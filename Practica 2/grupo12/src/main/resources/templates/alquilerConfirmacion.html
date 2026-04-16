@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Confirmación</title>
+    <style>body { font-family: sans-serif; margin: 20px; text-align: center; }</style>
+</head>
+<body>
+    <h1 style="color: green;">¡Alquiler Realizado con Éxito!</h1>
+    <div th:if="${alquiler}" style="border: 1px solid #ccc; padding: 20px; display: inline-block;">
+        <p><strong>Titular:</strong> <span th:text="${alquiler.socioTitular.nombre}"></span></p>
+        <p><strong>Embarcación:</strong> <span th:text="${alquiler.embarcacion.nombre}"></span></p>
+        <p><strong>Total:</strong> <span th:text="${alquiler.precioTotal} + ' €'"></span></p>
+    </div>
+    <br><br>
+    <a href="/">Volver al Inicio</a>
+</body>
+</html>

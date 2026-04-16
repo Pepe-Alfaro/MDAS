@@ -1,0 +1,47 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Grupo12ClientApplication_2",
+            "request": "launch",
+            "mainClass": "es.uco.pw.grupo12.Grupo12ClientApplication_2",
+            "projectName": "grupo12-client"
+        },
+        {
+            "type": "java",
+            "name": "Grupo12ClientApplication_2",
+            "request": "launch",
+            "mainClass": "es.uco.pw.grupo12.Grupo12ClientApplication_2",
+            "projectName": "demo"
+        },
+        {
+            "type": "java",
+            "name": "Grupo12ClientApplication",
+            "request": "launch",
+            "mainClass": "es.uco.pw.grupo12.Grupo12ClientApplication",
+            "projectName": "grupo12-client"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-Grupo12Application<grupo12>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "es.uco.pw.grupo12.Grupo12Application",
+            "projectName": "grupo12",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=34115 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=grupo12"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-Grupo12Application<demo>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "es.uco.pw.grupo12.Grupo12Application",
+            "projectName": "demo",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=52098 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=demo"
+        }
+    ]
+}

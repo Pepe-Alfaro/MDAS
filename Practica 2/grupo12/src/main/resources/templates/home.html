@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Club Náutico - Inicio</title>
+    <style>
+        /* --- ESTILOS GENERALES --- */
+        body { 
+            font-family: sans-serif; 
+            margin: 0;
+            padding: 0;
+            background-color: #f1fcfc;
+        }
+        
+        h1 { 
+            color: #004a99; 
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+            color: #333;
+        }
+
+        /* --- 1. LOGO CENTRADO (MÁS GRANDE) --- */
+        .logo-container {
+            text-align: center;
+        }
+        .logo-container img {
+            max-height: 200px; /* <--- AJUSTADO A 200px */
+            margin: 10px 0;
+        }
+
+        /* --- 2. CONTENEDOR PARA LAS 3 COLUMNAS --- */
+        .gestiones-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        /* --- 3. CADA COLUMNA DE GESTIÓN --- */
+        .gestion-columna {
+            width: 30%;
+            min-width: 280px;
+            padding: 15px;
+            box-sizing: border-box;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .gestion-columna h3 {
+            color: #004a99;
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 10px;
+        }
+        
+        .gestion-columna ul { 
+            list-style-type: none; 
+            padding: 0; 
+        }
+        
+        .gestion-columna li { 
+            margin: 10px 0;
+        }
+        
+        .gestion-columna a {
+            text-decoration: none;
+            padding: 12px 15px;
+            background-color: #0056b3;
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+            display: block;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+        
+        .gestion-columna a:hover {
+            background-color: #003d80;
+        }
+
+        /* --- 4. IMAGEN ALARGADA AL FINAL (MENOS ALTA) --- */
+        .footer-banner {
+            margin-top: 40px;
+            width: 100%;
+            
+            /* Altura fija para que sea "chica" */
+            height: 150px; 
+            
+            /* Propiedades para que la imagen se ajuste */
+            background-size: cover; 
+            background-position: center; 
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>Bienvenido al Sistema de Gestión del Club Náutico</h1>
+    
+    <div class="logo-container">
+        <img th:src="@{/images/clubnautico.jpg}" alt="Logo Club Náutico" />
+    </div>
+    
+    <h2>Menú de Funcionalidades</h2>
+
+    <div class="gestiones-container">
+        
+        <div class="gestion-columna">
+            <h3>Gestión de Socios</h3>
+            <ul>
+                <li><a th:href="@{/inscribirSocio}">Inscribir Nuevo Socio</a></li>
+                <li><a th:href="@{/ampliarInscripcion}">Ampliar Inscripción a Familiar</a></li>
+                <li><a th:href="@{/registrarTitulo}">Registrar Título de Patrón a Socio</a></li>
+                <li><a th:href="@{/verSocios}">Ver Listado de Socios</a></li>
+                <li><a th:href="@{/verInscripciones}">Ver Listado de Inscripciones</a></li>
+            </ul>
+        </div>
+        
+        <div class="gestion-columna">
+            <h3>Gestión de Patrones</h3>
+            <ul>
+                <li><a th:href="@{/altaPatron}">Dar de alta patrón</a></li>
+                <li><a th:href="@{/verPatrones}">Ver Listado de Patrones</a></li>
+                <li><a th:href="@{/asociarPatron}">Asociar Patron</a></li>
+            </ul>
+        </div>
+
+        <div class="gestion-columna">
+            <h3>Gestión de Embarcaciones</h3>
+            <ul>
+                <li><a th:href="@{/altaEmbarcacion}">Dar de alta Embarcación</a></li>
+                <li><a th:href="@{/consultarEmbarcacion}">Consultar Embarcaciones por Tipo</a></li>
+                <li><a th:href="@{/buscarEmbarcacion}">Buscar Embarcación por fecha</a></li>
+                <li><a th:href="@{/reservarEmbarcacion}">Reservar Embarcación</a></li>
+                <li><a th:href="@{/alquilar}">Alquilar embarcacion</a></li>
+                <li><a th:href="@{/listarAlquileres}">Listar Alquileres </a></li>
+            </ul>
+        </div>
+        
+    </div> <div class="footer-banner" 
+         th:style="'background-image: url(' + @{/images/image.jpg} + ');'"
+         role="img" 
+         aria-label="Banner decorativo del club náutico">
+        </div>
+
+</body>
+</html>

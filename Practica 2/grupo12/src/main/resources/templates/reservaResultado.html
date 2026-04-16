@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Resultado de la Reserva</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; text-align: center; }
+        .container { max-width: 600px; margin: 40px auto; padding: 30px; border-radius: 8px; }
+        .success { background-color: #dff0d8; border: 1px solid #d6e9c6; color: #3c763d; }
+        .error { background-color: #f2dede; border: 1px solid #ebccd1; color: #a94442; }
+        h1 { margin-top: 0; }
+        a {
+            text-decoration: none;
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        a:hover { background-color: #003d80; }
+    </style>
+</head>
+<body>
+
+    <div th:if="${exito}" class="container success">
+        <h1>¡Reserva Realizada!</h1>
+        <p th:text="${mensaje}">Mensaje de éxito aquí.</p>
+    </div>
+
+    <div th:unless="${exito}" class="container error">
+        <h1>Error en la Reserva</h1>
+        <p th:text="${mensaje}">Mensaje de error aquí.</p>
+    </div>
+
+    <a href="/reservarEmbarcacion" style="background-color: #5cb85c; margin-right: 10px;">Realizar otra reserva</a>
+    <a href="/">Volver al Inicio</a>
+
+</body>
+</html>

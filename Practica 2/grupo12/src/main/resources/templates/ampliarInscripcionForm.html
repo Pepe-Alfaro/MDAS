@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ampliar Inscripción - Paso 2</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        form { max-width: 500px; border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
+        div { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="date"] { width: 95%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        .error { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Añadir Miembro Familiar</h1>
+    <p>Añadiendo familiar a la inscripción de: <b th:text="${dniTitular}"></b> (ID Inscripción: <b th:text="${inscripcionId}"></b>)</p>
+
+    <div th:if="${error}" class="error" th:text="${error}"></div>
+
+    <form method="POST" th:action="@{/ampliarInscripcion/guardar}" th:object="${nuevoSocio}">
+        
+        <input type="hidden" name="dniTitular" th:value="${dniTitular}" />
+        <input type="hidden" name="inscripcionId" th:value="${inscripcionId}" />
+
+        <h3>Datos del Nuevo Miembro (Cónyuge o Hijo/a)</h3>
+        
+        <div>
+            <label for="dni">DNI:</label>
+            <input type="text" th:field="*{dni}" required />
+        </div>
+        
+        <div>
+            <label for="nombre">Nombre:</label>
+            <input type="text" th:field="*{nombre}" required />
+        </div>
+        
+        <div>
+            <label for="apellidos">Apellidos:</label>
+            <input type="text" th:field="*{apellidos}" required />
+        </div>
+        
+        <div>
+            <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+            <input type="date" th:field="*{fechaNacimiento}" required />
+        </div>
+        
+        <div>
+            <label for="direccion">Dirección:</label>
+            <input type="text" th:field="*{direccion}" />
+        </div>
+        
+        <div>
+            <label for="tituloPatron">¿Tiene Título de Patrón? (Opcional)</label>
+            <input type="checkbox" th:field="*{tituloPatron}" />
+        </div>
+
+        <input type="hidden" th:field="*{fechaInscripcion}" />
+        <input type="hidden" th:field="*{idInscripcionFk}" />
+
+        <div>
+            <button type="submit">Añadir Familiar</button>
+        </div>
+    </form>
+    
+    <br>
+    <a href="/">Volver al inicio</a>
+</body>
+</html>

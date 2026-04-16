@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Asociación Exitosa</title>
+    <style th:replace="~{altaPatronView :: style}"></style>
+    <style>
+        .exito { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>¡Asociación Completada!</h1>
+    
+    <div th:if="${mensaje}" class="exito" th:text="${mensaje}"></div>
+    
+    <br>
+    <a href="/asociarPatron">Asociar otro patrón</a>
+    <br>
+    <a href="/">Volver al inicio</a>
+</body>
+</html>

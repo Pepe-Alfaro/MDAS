@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Inscripción Exitosa</title>
+</head>
+<body>
+    <h1>¡Socio Inscrito!</h1>
+    
+    <div th:if="${exito}" style="color: green; font-weight: bold;" th:text="${exito}"></div>
+    
+    <p>El socio ha sido registrado correctamente como titular de una nueva inscripción individual.</p>
+    
+    <br>
+    <a href="/inscribirSocio">Inscribir otro socio</a>
+    <br>
+    <a href="/">Volver al inicio</a>
+</body>
+</html>

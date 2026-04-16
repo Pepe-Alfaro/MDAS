@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Listado de Patrones</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        h1 { color: #004a99; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f0f5fa; color: #004a99; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        a {
+            text-decoration: none;
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        a:hover { background-color: #003d80; }
+        .link-volver { display: inline-block; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Listado de Patrones del Club</h1>
+
+    <div th:if="${#lists.isEmpty(patrones)}">
+        <p>No hay patrones registrados en el sistema.</p>
+    </div>
+
+    <table th:unless="${#lists.isEmpty(patrones)}">
+        <thead>
+            <tr>
+                <th>DNI</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Fecha Nacimiento</th>
+                <th>Fecha Expedición Título</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="patron : ${patrones}">
+                <td th:text="${patron.dni}">DNI</td>
+                <td th:text="${patron.nombre}">Nombre</td>
+                <td th:text="${patron.apellidos}">Apellidos</td>
+                <td th:text="${#temporals.format(patron.fechaNacimiento, 'dd/MM/yyyy')}">01/01/1980</td>
+                <td th:text="${#temporals.format(patron.fechaExpedicionTitulo, 'dd/MM/yyyy')}">15/05/2010</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="/" class="link-volver">Volver al Inicio</a>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Alta Exitosa</title>
+    <style>
+        .exito { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>¡Embarcación Registrada!</h1>
+    
+    <div th:if="${exito}" class="exito" th:text="${exito}"></div>
+    
+    <br>
+    <a href="/altaEmbarcacion">Registrar otra embarcación</a>
+    <br>
+    <a href="/">Volver al inicio</a>
+</body>
+</html>

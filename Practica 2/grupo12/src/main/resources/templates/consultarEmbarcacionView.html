@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Consultar Embarcaciones</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        h1, h2 { color: #004a99; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f0f5fa; color: #004a99; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        form { background-color: #f0f5fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        select, button { padding: 8px; border-radius: 4px; border: 1px solid #ddd; }
+        a { text-decoration: none; padding: 10px 15px; background-color: #0056b3; color: white; border-radius: 5px; font-size: 16px; }
+        a:hover { background-color: #003d80; }
+        .link-volver { display: inline-block; margin-top: 20px; }
+        .boolean-si { color: green; font-weight: bold; }
+        .boolean-no { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Consultar Embarcaciones por Tipo</h1>
+
+    <form method="GET" th:action="@{/consultarEmbarcacion}">
+        <label for="tipo">Seleccione un tipo de embarcación:</label>
+        <select name="tipo" id="tipo" required>
+            <option value="">-- Todos los tipos --</option>
+            <option th:each="t : ${tiposEmbarcacion}"
+                    th:unless="${t == T(es.uco.pw.grupo12.model.domain.embarcacion.TipoEmbarcacion).NONE}"
+                    th:value="${t}"
+                    th:text="${t}"
+                    th:selected="${t.name() == tipoSeleccionado}">VELERO</option>
+        </select>
+        <button type="submit">Buscar</button>
+    </form>
+
+    <div th:if="${error}" class="error" th:text="${error}"></div>
+
+    <h2>Resultados de la Búsqueda</h2>
+    
+    <div th:if="${embarcaciones.isEmpty() and tipoSeleccionado != null}">
+        <p>No se encontraron embarcaciones de tipo '<span th:text="${tipoSeleccionado}"></span>'.</p>
+    </div>
+    
+    <div th:if="${embarcaciones.isEmpty() and tipoSeleccionado == null}">
+        <p>Seleccione un tipo para empezar la búsqueda.</p>
+    </div>
+
+    <table th:unless="${embarcaciones.isEmpty()}">
+        <thead>
+            <tr>
+                <th>Matrícula</th>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Plazas</th>
+                <th>Dimensiones (m)</th>
+                <th>¿Patrón Asignado?</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="emb : ${embarcaciones}">
+                <td th:text="${emb.matricula}">ABC-123</td>
+                <td th:text="${emb.nombre}">El Veloz</td>
+                <td th:text="${emb.tipo}">VELERO</td>
+                <td th:text="${emb.plazas}">8</td>
+                <td th:text="${#numbers.formatDecimal(emb.dimensiones, 1, 2)}">12.50</td>
+                
+                <td>
+                    <span th:if="${emb.patron.dni != '-1'}" class="boolean-si" th:text="'Sí (' + ${emb.patron.dni} + ')'">Sí (12345678A)</span>
+                    <span th:unless="${emb.patron.dni != '-1'}" class="boolean-no">No</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="/" class="link-volver">Volver al Inicio</a>
+
+</body>
+</html>

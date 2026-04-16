@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Patrón Registrado</title>
+    <style>
+        .exito { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>¡Patrón Registrado!</h1>
+    
+    <div th:if="${mensaje}" class="exito" th:text="${mensaje}"></div>
+    
+    <br>
+    <a href="/altaPatron">Registrar otro patrón</a>
+    <br>
+<a href="/">Volver al inicio</a>
+</body>
+</html>

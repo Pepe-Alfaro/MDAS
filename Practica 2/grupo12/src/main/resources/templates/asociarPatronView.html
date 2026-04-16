@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Asociar Patrón a Embarcación</title>
+    <style th:replace="~{altaPatronView :: style}"></style>
+</head>
+<body>
+    <h1>Asociar Patrón a Embarcación</h1>
+
+    <form th:action="@{/asociarPatron}" method="post">
+        
+        <div th:if="${error}" class="error" th:text="${error}"></div>
+        
+        <div>
+            <label for="matricula">Embarcación:</label>
+            <select name="matricula" id="matricula" required>
+                <option value="">-- Seleccione una embarcación --</option>
+                <option th:each="emb : ${embarcaciones}" 
+                        th:value="${emb.matricula}" 
+                        th:text="${emb.nombre + ' (' + emb.matricula + ')'}">
+                </option>
+            </select>
+        </div>
+
+        <div>
+            <label for="dniPatron">Patrón a Asignar:</label>
+            <select name="dniPatron" id="dniPatron" required>
+                <option value="">-- Seleccione un patrón --</option>
+                <option th:each="p : ${patrones}" 
+                        th:value="${p.dni}" 
+                        th:text="${p.nombre + ' ' + p.apellidos + ' (' + p.dni + ')'}">
+                </option>
+            </select>
+        </div>
+
+        <div>
+            <button type="submit">Asociar Patrón</button>
+        </div>
+    </form>
+    
+    <br>
+    <a href="/">Volver al inicio</a>
+</body>
+</html>

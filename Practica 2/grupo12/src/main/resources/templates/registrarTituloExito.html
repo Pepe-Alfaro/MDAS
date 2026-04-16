@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Título Registrado</title>
+    <style>
+        .exito { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>¡Título Actualizado!</h1>
+    
+    <div th:if="${exito}" class="exito" th:text="${exito}"></div>
+    
+    <p>El socio ahora está habilitado para alquilar embarcaciones.</p>
+    
+    <br>
+    <a href="/registrarTitulo">Registrar otro título</a>
+    <br>
+    <a href="/">Volver al inicio</a>
+</body>
+</html>

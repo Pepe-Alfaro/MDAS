@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Alquileres Futuros</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        h1 { color: #004a99; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f0f5fa; color: #004a99; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        a {
+            text-decoration: none;
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        a:hover { background-color: #003d80; }
+        .link-volver { display: inline-block; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Listado de Alquileres Futuros</h1>
+
+    <div th:if="${alquileres.isEmpty()}">
+        <p>No hay alquileres futuros registrados en el sistema.</p>
+    </div>
+
+    <table th:unless="${alquileres.isEmpty()}">
+        <thead>
+            <tr>
+                <th>DNI Socio Titular</th>
+                <th>Matrícula Embarcación</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="alquiler : ${alquileres}">
+                <td th:text="${alquiler.socioTitular.dni}">12345678A</td>
+                <td th:text="${alquiler.embarcacion.matricula}">1-CO-123</td>
+                <td th:text="${#temporals.format(alquiler.fechaInicio, 'dd/MM/yyyy')}">20/11/2025</td>
+                <td th:text="${#temporals.format(alquiler.fechaFin, 'dd/MM/yyyy')}">25/11/2025</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="/" class="link-volver">Volver al Inicio</a>
+
+</body>
+</html>

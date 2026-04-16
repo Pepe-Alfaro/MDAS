@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Resultados de Búsqueda</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        h1 { color: #004a99; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f0f5fa; color: #004a99; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        a {
+            text-decoration: none;
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        a:hover { background-color: #003d80; }
+        .link-volver { display: inline-block; margin-top: 20px; }
+        .link-otra { background-color: #5cb85c; margin-right: 10px; }
+        .link-otra:hover { background-color: #449d44; }
+    </style>
+</head>
+<body>
+    <h1>Embarcaciones Disponibles</h1>
+    <p>Resultados para el rango: 
+        <strong th:text="${#temporals.format(fechaInicio, 'dd/MM/yyyy')}"></strong> - 
+        <strong th:text="${#temporals.format(fechaFin, 'dd/MM/yyyy')}"></strong>
+    </p>
+
+    <div th:if="${embarcaciones.isEmpty()}">
+        <p>No se encontraron embarcaciones disponibles para ese rango de fechas.</p>
+    </div>
+
+    <table th:unless="${embarcaciones.isEmpty()}">
+        <thead>
+            <tr>
+                <th>Matrícula</th>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Plazas</th>
+                <th>Dimensiones (m)</th>
+                <th>¿Patrón Asignado?</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="emb : ${embarcaciones}">
+                <td th:text="${emb.matricula}">ABC-123</td>
+                <td th:text="${emb.nombre}">El Velero</td>
+                <td th:text="${emb.tipo}">VELERO</td>
+                <td th:text="${emb.plazas}">8</td>
+                <td th:text="${#numbers.formatDecimal(emb.dimensiones, 1, 2)}">12.50</td>
+                
+                <td>
+                    <span th:if="${emb.patron.dni != '-1'}" class="boolean-si" th:text="'Sí (' + ${emb.patron.dni} + ')'">Sí (12345678A)</span>
+                    <span th:unless="${emb.patron.dni != '-1'}" class="boolean-no">No</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <br>
+    <a href="/buscarEmbarcacion" class="link-volver link-otra">Realizar otra búsqueda</a>
+    <a href="/" class="link-volver">Volver al Inicio</a>
+</body>
+</html>

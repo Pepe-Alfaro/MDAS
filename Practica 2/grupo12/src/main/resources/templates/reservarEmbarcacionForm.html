@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Reservar Embarcación</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        h1 { color: #004a99; }
+        form { background-color: #f9f9f9; border: 1px solid #ddd; padding: 20px; border-radius: 8px; max-width: 500px; }
+        div { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type=text], input[type=date], input[type=number], textarea { 
+            width: calc(100% - 16px); 
+            padding: 8px; 
+            border: 1px solid #ccc; 
+            border-radius: 4px; 
+        }
+        textarea { resize: vertical; min-height: 80px; }
+        button { padding: 10px 15px; background-color: #0056b3; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        button:hover { background-color: #003d80; }
+        a { display: inline-block; margin-top: 20px; color: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>Reservar Embarcación para Actividad</h1>
+    
+    <form action="/procesarReserva" method="POST">
+        <div>
+            <label for="matricula">Matrícula de la Embarcación:</label>
+            <input type="text" id="matricula" name="matricula" placeholder="Ej: 1-CO-1-123" required>
+        </div>
+        <div>
+            <label for="dniSocio">DNI del Socio Solicitante:</label>
+            <input type="text" id="dniSocio" name="dniSocio" placeholder="Ej: 12345678A" required>
+        </div>
+        <div>
+            <label for="fecha">Fecha de la Actividad:</label>
+            <input type="date" id="fecha" name="fecha" required>
+        </div>
+        <div>
+            <label for="plazasSolicitadas">Plazas Solicitadas (sin incluir al patrón):</label>
+            <input type="number" id="plazasSolicitadas" name="plazasSolicitadas" min="1" placeholder="Ej: 4" required>
+        </div>
+        <div>
+            <label for="descripcion">Propósito (descripción breve):</label>
+            <textarea id="descripcion" name="descripcion" required></textarea>
+        </div>
+        
+        <button type="submit">Confirmar Reserva</button>
+    </form>
+    
+    <a href="/">Volver al Inicio</a>
+</body>
+</html>

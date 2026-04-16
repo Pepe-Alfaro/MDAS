@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dar de Alta Patrón</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        form { max-width: 500px; border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
+        div { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="date"] { width: 95%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        .error { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Formulario de Alta de Patrón</h1>
+
+    <div th:if="${error}" class="error" th:text="${error}"></div>
+
+    <form th:action="@{/altaPatron}" th:object="${patron}" method="post">
+        <div>
+            <label for="dni">DNI:</label>
+            <input type="text" th:field="*{dni}" required/>
+        </div>
+        <div>
+            <label for="nombre">Nombre:</label>
+            <input type="text" th:field="*{nombre}" required/>
+        </div>
+        <div>
+            <label for="apellidos">Apellidos:</label>
+            <input type="text" th:field="*{apellidos}" required/>
+        </div>
+        <div>
+            <label for="fechaNacimiento">Fecha de nacimiento:</label>
+            <input type="date" th:field="*{fechaNacimiento}" required/>
+        </div>
+        <div>
+            <label for="fechaExpedicionTitulo">Fecha expedición título:</label>
+            <input type="date" th:field="*{fechaExpedicionTitulo}" required/>
+        </div>
+        <div>
+            <button type="submit">Dar de Alta</button>
+        </div>
+    </form>
+    
+    <br>
+    <a href="/">Volver al inicio</a>
+</body>
+</html>

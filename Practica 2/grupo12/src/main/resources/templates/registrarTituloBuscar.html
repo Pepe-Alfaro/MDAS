@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registrar Título de Patrón</title>
+    <style>
+        body { 
+            font-family: sans-serif; 
+            margin: 20px; 
+            background-color: #f4f7f6; /* Fondo suave */
+        }
+        
+        h1 { 
+            color: #004a99; /* Título "azulito" */
+        }
+
+        /* Estilo para el formulario */
+        form { 
+            background-color: #ffffff;
+            border: 1px solid #ddd; 
+            padding: 20px; 
+            border-radius: 8px; 
+            max-width: 500px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra suave */
+        }
+        
+        div { 
+            margin-bottom: 15px; 
+        }
+        
+        label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+        }
+        
+        input[type="text"] { 
+            width: 95%; 
+            padding: 8px; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+            font-size: 16px;
+        }
+
+        /* Estilo del botón de envío */
+        button { 
+            padding: 10px 15px; 
+            background-color: #0056b3; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-size: 16px; 
+        }
+        button:hover { 
+            background-color: #003d80; 
+        }
+
+        /* Estilo del enlace "Volver" */
+        a {
+            text-decoration: none;
+            padding: 10px 15px;
+            background-color: #6c757d; /* Gris para diferenciarlo */
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        a:hover { 
+            background-color: #5a6268; 
+        }
+        .link-volver { 
+            display: inline-block; 
+            margin-top: 20px; 
+        }
+
+        /* Estilos para los mensajes de alerta */
+        .error { 
+            color: #a94442;
+            background-color: #f2dede;
+            border: 1px solid #ebccd1;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold; 
+        }
+        .info { 
+            color: #31708f;
+            background-color: #d9edf7;
+            border: 1px solid #bce8f1;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold; 
+        }
+    </style>
+</head>
+<body>
+    <h1>Registrar Título de Patrón a un Socio</h1>
+    
+    <div th:if="${error}" class="error" th:text="${error}"></div>
+    <div th:if="${info}" class="info" th:text="${info}"></div>
+
+    <form method="POST" th:action="@{/registrarTitulo}">
+        <div>
+            <label for="dni">DNI del Socio:</label>
+            <input type="text" name="dni" id="dni" required />
+        </div>
+        <div>
+            <button type="submit">Actualizar Título</button>
+        </div>
+    </form>
+    
+    <br>
+    <a href="/" class="link-volver">Volver al inicio</a>
+</body>
+</html>

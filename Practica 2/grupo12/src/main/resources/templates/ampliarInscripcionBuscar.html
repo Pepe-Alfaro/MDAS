@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ampliar Inscripción - Paso 1</title>
+    <style>
+        body { 
+            font-family: sans-serif; 
+            margin: 20px; 
+            background-color: #f4f7f6; /* Fondo suave */
+        }
+        
+        h1, h2 { 
+            color: #004a99; /* Título "azulito" */
+        }
+        h2 {
+            font-size: 1.2em; /* Un poco más pequeño que el h1 */
+            color: #333;
+        }
+
+        /* Estilo para el formulario */
+        form { 
+            background-color: #ffffff;
+            border: 1px solid #ddd; 
+            padding: 20px; 
+            border-radius: 8px; 
+            max-width: 500px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra suave */
+        }
+        
+        div { 
+            margin-bottom: 15px; 
+        }
+        
+        label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+        }
+        
+        input[type="text"] { 
+            width: 95%; 
+            padding: 8px; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+            font-size: 16px;
+        }
+
+        /* Estilo del botón de envío */
+        button { 
+            padding: 10px 15px; 
+            background-color: #0056b3; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-size: 16px; 
+        }
+        button:hover { 
+            background-color: #003d80; 
+        }
+
+        /* Estilo del enlace "Volver" */
+        a {
+            text-decoration: none;
+            padding: 10px 15px;
+            background-color: #6c757d; /* Gris para diferenciarlo */
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        a:hover { 
+            background-color: #5a6268; 
+        }
+        .link-volver { 
+            display: inline-block; 
+            margin-top: 20px; 
+        }
+
+        /* Estilos para los mensajes de alerta */
+        .error { 
+            color: #a94442;
+            background-color: #f2dede;
+            border: 1px solid #ebccd1;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold; 
+            max-width: 500px; /* Ancho consistente con el form */
+        }
+    </style>
+</head>
+<body>
+    <h1>Ampliar Inscripción Familiar</h1>
+    <h2>Paso 1: Buscar Socio Titular</h2>
+    
+    <div th:if="${error}" class="error" th:text="${error}"></div>
+
+    <form method="POST" th:action="@{/ampliarInscripcion/buscar}">
+        <div>
+            <label for="dniTitular">DNI del Socio Titular:</label>
+            <input type="text" name="dniTitular" id="dniTitular" required />
+        </div>
+        <div>
+            <button type="submit">Buscar Titular</button>
+        </div>
+    </form>
+    
+    <br>
+    <a href="/" class="link-volver">Volver al inicio</a>
+</body>
+</html>

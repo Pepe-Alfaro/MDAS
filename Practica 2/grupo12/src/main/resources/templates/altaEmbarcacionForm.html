@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Alta de Embarcación</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        form { max-width: 500px; border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
+        div { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="number"], select { width: 95%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        .error { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Formulario de Alta de Embarcación</h1>
+    
+    <div th:if="${error}" class="error" th:text="${error}"></div>
+
+    <form method="POST" th:action="@{/altaEmbarcacion}" th:object="${embarcacion}">
+        
+        <div>
+            <label for="matricula">Matrícula:</label>
+            <input type="text" th:field="*{matricula}" required />
+        </div>
+        
+        <div>
+            <label for="nombre">Nombre:</label>
+            <input type="text" th:field="*{nombre}" required />
+        </div>
+
+        <div>
+            <label for="tipo">Tipo de Embarcación:</label>
+            <select th:field="*{tipo}" required>
+                <option value="">-- Seleccione un tipo --</option>
+                <option th:each="t : ${tiposEmbarcacion}"
+                        th:unless="${t == T(es.uco.pw.grupo12.model.domain.embarcacion.TipoEmbarcacion).NONE}"
+                        th:value="${t}"
+                        th:text="${t}">VELERO</option>
+            </select>
+        </div>
+        
+        <div>
+            <label for="plazas">Número de Plazas:</label>
+            <input type="number" th:field="*{plazas}" required min="1" />
+        </div>
+        
+        <div>
+            <label for="dimensiones">Dimensiones (Metros):</label>
+            <input type="number" th:field="*{dimensiones}" step="0.01" min="0" />
+        </div>
+
+        <div>
+            <button type="submit">Dar de Alta</button>
+        </div>
+    </form>
+    
+    <br>
+    <a href="/">Volver al inicio</a>
+</body>
+</html>
