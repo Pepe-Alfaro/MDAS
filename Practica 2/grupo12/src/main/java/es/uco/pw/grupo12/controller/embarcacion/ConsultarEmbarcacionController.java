@@ -42,8 +42,9 @@ public class ConsultarEmbarcacionController {
         // 2. Comprobar si el usuario ha enviado un tipo para buscar
         if (tipoSeleccionado != null && !tipoSeleccionado.isEmpty()) {
             try {
-                TipoEmbarcacion tipoEnum = TipoEmbarcacion.valueOf(tipoSeleccionado);
-                embarcacionesEncontradas = embarcacionRepository.findByTipo(tipoEnum);
+                // [Regla de Nombrado: Regla 10 - Evitar codificaciones del tipo de dato en el nombre]
+                TipoEmbarcacion tipoEmbarcacion = TipoEmbarcacion.valueOf(tipoSeleccionado);
+                embarcacionesEncontradas = embarcacionRepository.findByTipo(tipoEmbarcacion);
             } catch (IllegalArgumentException e) {
                 // Si el tipo no es válido, devolvemos una lista vacía
                 embarcacionesEncontradas = new ArrayList<>();
