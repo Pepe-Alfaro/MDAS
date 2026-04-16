@@ -72,9 +72,11 @@ public class SocioRestController {
         // El repositorio convierte ese -1 a NULL en la BBDD, cumpliendo el requisito.
         
         // Intentamos guardar el socio
-        boolean guardado = socioRepository.saveSocio(socio);
 
-        if (guardado) {
+        //cambio el nombre de variable guardado por isExitoRegistro. Aplicando al regla de nombrado 1.
+        boolean isExitoRegistro = socioRepository.saveSocio(socio);
+
+        if (isExitoRegistro) {
             return new ResponseEntity<>("Socio creado correctamente", HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>("No se pudo crear el socio. Verifique que el DNI no exista ya.", HttpStatus.BAD_REQUEST);
@@ -96,9 +98,12 @@ public class SocioRestController {
         // 3. Guardamos el socio. 
         // Si el ID de inscripción no existe en la BBDD, saltará un error de Clave Foránea (FK)
         // y saveSocio devolverá false o lanzará excepción (dependiendo de tu implementación de Repository).
-        boolean guardado = socioRepository.saveSocio(socio);
 
-        if (guardado) {
+
+        //cambio el nombre de variable guardado por isExitoRegistro. Aplicando al regla de nombrado 1.
+        boolean isExitoRegistro = socioRepository.saveSocio(socio);
+
+        if (isExitoRegistro) {
             return new ResponseEntity<>("Socio familiar creado y vinculado a la inscripción " + idInscripcion, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>("No se pudo crear el socio. Verifique que el DNI no exista ya y que el ID de inscripción sea correcto.", HttpStatus.BAD_REQUEST);

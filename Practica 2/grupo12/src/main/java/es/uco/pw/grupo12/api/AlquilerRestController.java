@@ -143,8 +143,10 @@ public ResponseEntity<String> addPasajero(
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El pasajero ya está incluido en este alquiler.");
     }
     // 5. Guardar
-    boolean ok = alquilerRepository.addPasajero(id, dniLimpio);
-    if (!ok) {
+
+    //cambio el nombre de variable guardado por isPasajeroEliminado. Aplicando al regla de nombrado 1.
+    boolean isPasajeroVinculado = alquilerRepository.addPasajero(id, dniLimpio);
+    if (!isPasajeroVinculado) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se pudo añadir. Verifique que el DNI exista en el sistema.");
     }
         return ResponseEntity.ok("Pasajero añadido correctamente.");
@@ -165,9 +167,11 @@ public ResponseEntity<String> removePasajero(
     if (!alquiler.getFechaInicio().isAfter(LocalDate.now())) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El alquiler ya está en curso o finalizado");
     }
-    boolean ok = alquilerRepository.removePasajero(id, dniLimpio);
+    
+    //cambio el nombre de variable guardado por isPasajeroEliminado. Aplicando al regla de nombrado 1.
+    boolean isPasajeroEliminado = alquilerRepository.removePasajero(id, dniLimpio);
 
-    if (!ok) {
+    if (!isPasajeroEliminado) {
         // Si devuelve false, es probable que el pasajero no estuviera en la lista
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se pudo eliminar: El pasajero no estaba asociado a este alquiler.");
     }
@@ -190,8 +194,8 @@ public ResponseEntity<String> removePasajero(
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se puede cancelar un alquiler que ya ha iniciado o finalizado.");
         }
         // Ejecutar cancelación
-        boolean ok = alquilerRepository.cancelarAlquiler(id);
-        if (!ok) {
+        boolean isAlquilerCancelado = alquilerRepository.cancelarAlquiler(id);
+        if (!isAlquilerCancelado) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno al intentar cancelar el alquiler.");
         }
 
