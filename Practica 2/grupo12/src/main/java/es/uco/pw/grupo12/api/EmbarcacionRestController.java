@@ -54,30 +54,28 @@ public class EmbarcacionRestController {
      // /api/embarcaciones/tipo/{tipo}  (Ejemplo: /api/embarcaciones/tipo/VELERO) (GET)
 
     // Cambio el nombre de la variable a nombreTipo para que sea más descriptiva. Aplicando la regla de nombrado 10.
+
+    //// Decisión de diseño: Se eliminan los comentarios línea a línea por ser redundantes; 
+    // el código es autoexplicativo (Regla 10 de comentarios).
     @GetMapping("/tipo/{tipo}")
     public ResponseEntity<List<Embarcacion>> listarEmbarcacionesPorTipo(@PathVariable("tipo") String nombreTipo) {
         try {
-            // 1. Convertimos el texto que llega en la URL (ej: "VELERO") al Enum TipoEmbarcacion
             
             TipoEmbarcacion tipo = TipoEmbarcacion.valueOf(nombreTipo.toUpperCase());
             
-            // 2. Llamamos al método que YA existe
             List<Embarcacion> embarcaciones = embarcacionRepository.findByTipo(tipo);
 
             if (embarcaciones.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 si no hay barcos de ese tipo
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT); 
             }
 
-            return new ResponseEntity<>(embarcaciones, HttpStatus.OK); // 200 OK con la lista
+            return new ResponseEntity<>(embarcaciones, HttpStatus.OK); 
             
         } catch (IllegalArgumentException e) {
-            // 3.Controlamos si el usuario introduce algo incorrecto.
-            // Devolvemos un error 400 Bad Request.
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
     
-     // 4. Crear una nueva embarcación, sin asociarle patrón (POST)
      
     @PostMapping
     public ResponseEntity<String> crearEmbarcacion(@RequestBody Embarcacion embarcacion) {

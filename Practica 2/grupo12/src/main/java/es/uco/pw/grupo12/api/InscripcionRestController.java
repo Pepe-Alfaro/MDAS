@@ -151,7 +151,7 @@ public class InscripcionRestController {
         boolean exito = socioRepository.updateInscripcionFk(dniNuevoMiembro, idInscripcion);
 
         if (exito) {
-            // --- NUEVO: RECALCULAR CUOTA AUTOMÁTICAMENTE ---
+            //Aplicar la regla 8 de comentarios
             double nuevaCuota = recalcularYGuardarCuota(idInscripcion);
             
             return ResponseEntity.ok("Socio " + dniNuevoMiembro + " vinculado correctamente a la inscripción " + idInscripcion + ". Cuota actualizada a: " + nuevaCuota + "€");
@@ -230,10 +230,7 @@ public class InscripcionRestController {
         }
     }
 
-    /**
-     * Método auxiliar privado para recalcular y actualizar la cuota en la BBDD.
-     * Utiliza la lógica de negocio de la clase Inscripcion y el repositorio.
-     */
+    // Aplicacion de regla de comentario 9: Cabeceras en funciones simples o métodos privados
     private double recalcularYGuardarCuota(int idInscripcion) {
         // 1. Recuperamos a TODOS los socios que quedan en la inscripción (familiares)
         List<Socio> sociosActuales = socioRepository.findAllByInscripcionId(idInscripcion);
