@@ -69,8 +69,8 @@ public class Inscripcion {
         int numHijos = 0;
 
         // 1. Contar el total de adultos e hijos en la inscripción
-        for (Socio s : sociosVinculados) {
-            if (esMayorDeEdad(s)) {
+        for (Socio socio : sociosVinculados) {
+            if (esMayorDeEdad(socio)) {
                 numAdultos++;
             } else {
                 numHijos++;
