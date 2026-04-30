@@ -105,8 +105,9 @@ public class ReservaController {
         // 7.Guardar reserva
         
         // [Regla de Nombrado: Regla 7 - Declarar variable para valor constante numérico]
+
         final double PRECIO_POR_PLAZA = 40.0;
-        
+        // [Buena Práctica - Formato Regla 3: Espaciado en asignaciones y operadores]
         // Calcular precio 
         double precioTotal = plazasSolicitadas * PRECIO_POR_PLAZA;
         
