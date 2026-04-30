@@ -120,36 +120,35 @@ public class EmbarcacionRestController {
     // 5. Actualizar los campos de información de una embarcación, excepto la matrícula (PATCH)
     // URL: /api/embarcaciones/{matricula}
     
-    //Cambio el nombre de la variable datosNuevos por embarcacionActualizada para evitar palabras generales. Aplicando la regla de nombrado 12
+    //[Reglas 3 y 6: Comentarios sobre condicionales y de intención]
     @PatchMapping("/{matricula}")
     public ResponseEntity<Embarcacion> updateEmbarcacion(@PathVariable String matricula, @RequestBody Embarcacion embarcacionActualizada) {
         
-        // 1. Recuperar el recurso actual
+        
         Embarcacion embarcacionActual = embarcacionRepository.findByMatricula(matricula);
         if (embarcacionActual == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        // 2. Actualizar
-        // Nombre
+        
+      
         if (embarcacionActualizada.getNombre() != null) {
             embarcacionActual.setNombre(embarcacionActualizada.getNombre());
         }
-        // Tipo (Enum)
+       
         if (embarcacionActualizada.getTipo() != null) {
             embarcacionActual.setTipo(embarcacionActualizada.getTipo());
         }
-        // Plazas (int): En Java los int primitivos son 0 por defecto. 
-        // si manda > 0 quiere actualizarlo.
+      
         if (embarcacionActualizada.getPlazas() > 0) {
             embarcacionActual.setPlazas(embarcacionActualizada.getPlazas());
         }
         
-        // Dimensiones 
+       
         if (embarcacionActualizada.getDimensiones() != null) {
             embarcacionActual.setDimensiones(embarcacionActualizada.getDimensiones());
         }
 
-        // 3. Guardar los cambios en la base de datos
+        
         int filasAfectadas = embarcacionRepository.update(embarcacionActual);
         if (filasAfectadas > 0) {
             return new ResponseEntity<>(embarcacionActual, HttpStatus.OK);

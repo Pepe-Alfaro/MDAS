@@ -30,9 +30,9 @@ public class ReservaRepository extends AbstractRepository {
         try {
             jdbcTemplate.queryForObject(query, Integer.class, matricula, fecha);
             return true;
-        } catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException exception) {
             return false;
-        } catch (DataAccessException e) {
+        } catch (DataAccessException exception) {
             return true;
         }
     }
@@ -49,8 +49,8 @@ public class ReservaRepository extends AbstractRepository {
                     reserva.getDescripcion(),
                     reserva.getPrecioTotal());
             return rowsAffected > 0;
-        } catch (DataAccessException e) {
-            e.printStackTrace();
+        } catch (DataAccessException exception) {
+            exception.printStackTrace();
             return false;
         }
     }
@@ -60,8 +60,8 @@ public class ReservaRepository extends AbstractRepository {
         if (query == null) return new ArrayList<>();
         try {
             return jdbcTemplate.query(query, new ReservaRowMapper());
-        } catch (DataAccessException e) {
-            e.printStackTrace();
+        } catch (DataAccessException exception) {
+            exception.printStackTrace();
             return new ArrayList<>();
         }
     }
@@ -71,8 +71,8 @@ public class ReservaRepository extends AbstractRepository {
         if (query == null) return new ArrayList<>();
         try {
             return jdbcTemplate.query(query, new ReservaRowMapper(), fecha);
-        } catch (DataAccessException e) {
-            e.printStackTrace();
+        } catch (DataAccessException exception) {
+            exception.printStackTrace();
             return new ArrayList<>();
         }
     }
@@ -84,8 +84,8 @@ public class ReservaRepository extends AbstractRepository {
             return jdbcTemplate.queryForObject(query, new ReservaRowMapper(), id);
         } catch (EmptyResultDataAccessException e) {
             return null;
-        } catch (DataAccessException e) {
-            e.printStackTrace();
+        } catch (DataAccessException exception) {
+            exception.printStackTrace();
             return null;
         }
     }
@@ -95,7 +95,7 @@ public class ReservaRepository extends AbstractRepository {
         try {
             jdbcTemplate.queryForObject(query, Integer.class, matricula, fecha);
             return true;
-        } catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException exception) {
             return false;
         }
     }
@@ -104,8 +104,8 @@ public class ReservaRepository extends AbstractRepository {
         String query = sqlQueries.getProperty("update-reserva-fecha");
         try {
             return jdbcTemplate.update(query, nuevaFecha, idReserva) > 0;
-        } catch (DataAccessException e) {
-            e.printStackTrace();
+        } catch (DataAccessException exception) {
+            exception.printStackTrace();
             return false;
         }
     }
@@ -116,8 +116,8 @@ public class ReservaRepository extends AbstractRepository {
         if (query == null) return false;
         try {
             return jdbcTemplate.update(query, descripcion, plazas, nuevoPrecio, idReserva) > 0;
-        } catch (DataAccessException e) {
-            e.printStackTrace();
+        } catch (DataAccessException exception) {
+            exception.printStackTrace();
             return false;
         }
     }
@@ -126,8 +126,8 @@ public class ReservaRepository extends AbstractRepository {
         String query = sqlQueries.getProperty("delete-reserva");
         try {
             return jdbcTemplate.update(query, idReserva) > 0;
-        } catch (DataAccessException e) {
-            e.printStackTrace();
+        } catch (DataAccessException exception) {
+            exception.printStackTrace();
             return false;
         }
     }
