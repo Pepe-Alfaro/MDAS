@@ -36,7 +36,8 @@ public class ConsultarEmbarcacionController {
         // 1. Añadir siempre la lista de tipos para el desplegable
         model.addAttribute("tiposEmbarcacion", TipoEmbarcacion.values());
         model.addAttribute("tipoSeleccionado", tipoSeleccionado);
-
+        
+        // [Buena Práctica - Regla 2: Nombre de colección claro]
         List<Embarcacion> embarcacionesEncontradas;
 
         // 2. Comprobar si el usuario ha enviado un tipo para buscar
