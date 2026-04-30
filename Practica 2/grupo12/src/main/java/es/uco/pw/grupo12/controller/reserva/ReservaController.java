@@ -66,10 +66,11 @@ public class ReservaController {
         }
  
         // 3.Comprobamos si el patrón es nulo
+        // [Regla de Comentarios: Regla 1 - Se borra comentario desactualizado/historial]
         if (embarcacion.getPatron() == null || 
             embarcacion.getPatron().getDni() == null || 
             embarcacion.getPatron().getDni().isEmpty() || 
-            embarcacion.getPatron().getDni().equals("-1")) { // <-- ESTA ES LA CORRECCIÓN
+            embarcacion.getPatron().getDni().equals("-1")) {
             
             model.addAttribute("exito", false);
             model.addAttribute("mensaje", "Error: La embarcación '" + embarcacion.getNombre() + "' no tiene un patrón asociado y no se puede reservar.");
