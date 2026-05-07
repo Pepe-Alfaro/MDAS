@@ -70,7 +70,7 @@ public class Inscripcion {
 
         // 1. Contar el total de adultos e hijos en la inscripción
         for (Socio socio : sociosVinculados) {
-            if (esMayorDeEdad(socio)) {
+            if (esMayorDeEdad(socio, LocalDate.now())) {
                 numAdultos++;
             } else {
                 numHijos++;
@@ -97,8 +97,10 @@ public class Inscripcion {
 
     // Método auxiliar para calcular edad.
      
-    private boolean esMayorDeEdad(Socio socio) {
-        return socio.getFechaNacimiento().plusYears(18).isBefore(LocalDate.now());
+    // Decisión de diseño: Se transforma en una función pura al recibir la fecha de 
+    // referencia por parámetro, eliminando la dependencia oculta de LocalDate.now() (Regla 4 de funciones).
+    private boolean esMayorDeEdad(Socio socio, LocalDate fechaHoy) {
+        return socio.getFechaNacimiento().plusYears(18).isBefore(fechaHoy);
     }
 
     // Getters
