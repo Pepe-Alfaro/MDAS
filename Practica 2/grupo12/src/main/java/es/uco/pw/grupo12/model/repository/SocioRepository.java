@@ -60,11 +60,13 @@ public class SocioRepository extends AbstractRepository {
   // Actualiza el campo id_inscripcion_fk de un socio existente.
 
   
-  public boolean updateInscripcionFk(String dniSocio, int idInscripcion) {
-    try {
-      String query = sqlQueries.getProperty("update-socio-asignarInscripcion");
-      int rowsAffected = jdbcTemplate.update(query, idInscripcion, dniSocio);
-      return rowsAffected > 0;
+  // Decisión de diseño: Se utiliza un nombre basado en la intención de negocio ("vincular") 
+// en lugar de un detalle técnico de BD ("update FK") (Regla 1 de funciones).
+  public boolean vincularSocioAInscripcion(String dniSocio, int idInscripcion) {
+      try {
+        String query = sqlQueries.getProperty("update-socio-asignarInscripcion");
+        int rowsAffected = jdbcTemplate.update(query, idInscripcion, dniSocio);
+        return rowsAffected > 0;
     } catch (DataAccessException e) {
       System.err.println("Error al actualizar FK de inscripción para socio: " + dniSocio);
       e.printStackTrace();

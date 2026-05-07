@@ -56,49 +56,65 @@ public class Inscripcion {
         }
 
         this.sociosVinculados.addAll(nuevosSocios);
-        calcularCuota();
+        calcularCuota(LocalDate.now());
     }
 
   
      // Calcula la cuota total de la inscripción familiar.
     
      
-    public void calcularCuota() {
-        double total = 0.0; 
-        int numAdultos = 0;
-        int numHijos = 0;
+    public void calcularCuota(LocalDate fechaHoy) {
+        int numAdultos = obtenerCantidadAdultos(fechaHoy);
+        int numHijos = obtenerCantidadHijos(numAdultos);
 
-        // 1. Contar el total de adultos e hijos en la inscripción
-        for (Socio socio : sociosVinculados) {
-            if (esMayorDeEdad(socio)) {
-                numAdultos++;
-            } else {
-                numHijos++;
-            }
-        }
-
-        // 2. Aplicar cuota del Titular 
-        if (numAdultos > 0) {
-            total += CUOTA_ADULTO_TITULAR; // 300€
-            numAdultos--; 
-        }
-        
-        // 3. Aplicar cuota del Cónyuge 
-        if (numAdultos > 0) {
-            total += CUOTA_SEGUNDO_ADULTO; // 250€
-           
-        }
-
-        // 4. Aplicar cuota de todos los hijos
-        total += (numHijos * CUOTA_HIJO); // 100€ por cada hijo
+        double total = calcularCuotaAdultos(numAdultos);
+        total += calcularCuotaHijos(numHijos);
 
         this.cuota = total;
     }
 
+    private int obtenerCantidadAdultos(LocalDate fechaHoy) {
+        int count = 0;
+
+        for (Socio socio : sociosVinculados) {
+            if (esMayorDeEdad(socio, fechaHoy)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private int obtenerCantidadHijos(int numAdultos) {
+        return sociosVinculados.size() - numAdultos;
+    }
+
+    private double calcularCuotaAdultos(int numAdultos) {
+        double total = 0.0;
+
+        // Cuota del titular
+        if (numAdultos > 0) {
+            total += CUOTA_ADULTO_TITULAR;
+            numAdultos--;
+        }
+
+        // Cuota del cónyuge
+        if (numAdultos > 0) {
+            total += CUOTA_SEGUNDO_ADULTO;
+        }
+
+    return total;
+    }
+
+    private double calcularCuotaHijos(int numHijos) {
+        return numHijos * CUOTA_HIJO;
+    }
+
     // Método auxiliar para calcular edad.
      
-    private boolean esMayorDeEdad(Socio socio) {
-        return socio.getFechaNacimiento().plusYears(18).isBefore(LocalDate.now());
+    // Decisión de diseño: Se transforma en una función pura al recibir la fecha de 
+    // referencia por parámetro, eliminando la dependencia oculta de LocalDate.now() (Regla 4 de funciones).
+    private boolean esMayorDeEdad(Socio socio, LocalDate fechaHoy) {
+        return socio.getFechaNacimiento().plusYears(18).isBefore(fechaHoy);
     }
 
     // Getters
