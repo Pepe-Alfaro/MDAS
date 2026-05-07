@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -213,7 +214,7 @@ public class InscripcionRestController {
         // Nota: En tu modelo 'Inscripcion.calcularCuota' itera sobre 'sociosVinculados'.
         // Al pasarle la lista de la BD, recalculamos el precio correcto según adultos/niños.
         inscripcionTemp.setSociosVinculados(sociosActuales);
-        inscripcionTemp.calcularCuota(); 
+        inscripcionTemp.calcularCuota(LocalDate.now()); 
         
         double nuevaCuota = inscripcionTemp.getCuota();
         
