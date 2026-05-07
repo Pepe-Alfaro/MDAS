@@ -28,6 +28,9 @@ public class ConsultarEmbarcacionController {
      * Si se recibe un parámetro 'tipo', realiza la búsqueda y muestra resultados.
      * Si no, solo muestra el formulario de búsqueda.
      */
+    // [Buena Práctica - Regla de Argumentos: Evitar parámetros bandera]
+    // El argumento 'tipoSeleccionado' actúa puramente como dato de filtrado, 
+    // no como una bandera (booleano) que obligue al método a hacer dos cosas distintas.
     @GetMapping("/consultarEmbarcacion")
     public String consultarEmbarcaciones(
             @RequestParam(value = "tipo", required = false) String tipoSeleccionado,

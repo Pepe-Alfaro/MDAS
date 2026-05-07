@@ -31,7 +31,9 @@ public class BuscarEmbarcacionController {
 
     
     //Procesa la búsqueda y muestra los resultados.
-    
+    // [Buena Práctica - Regla de Argumentos: Entradas puras]
+    // Los argumentos 'fechaInicio' y 'fechaFin' se utilizan exclusivamente como datos de lectura
+    // y en un orden semántico natural, sin actuar como argumentos de salida.
     @GetMapping("/resultadosEmbarcacion")
     public String buscarEmbarcacionesDisponibles(
             @RequestParam("fechaInicio") LocalDate fechaInicio,
