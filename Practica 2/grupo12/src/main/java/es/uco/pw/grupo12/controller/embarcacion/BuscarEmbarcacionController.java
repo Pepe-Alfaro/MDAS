@@ -39,11 +39,9 @@ public class BuscarEmbarcacionController {
             Model model) {
         
         List<Embarcacion> embarcaciones = embarcacionRepository.findEmbarcacionesDisponibles(fechaInicio, fechaFin);
-        
         model.addAttribute("embarcaciones", embarcaciones);
         model.addAttribute("fechaInicio", fechaInicio); // Para mostrar en la vista
         model.addAttribute("fechaFin", fechaFin);     // Para mostrar en la vista
-        
         return "buscarEmbarcacionResultados";
     }
 }
