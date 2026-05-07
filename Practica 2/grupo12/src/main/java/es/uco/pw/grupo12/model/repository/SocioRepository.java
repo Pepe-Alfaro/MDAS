@@ -38,17 +38,13 @@ public class SocioRepository extends AbstractRepository {
     }
   }
 
-  
-  // Guarda un nuevo socio en la base de datos.
- 
-  public boolean saveSocio(Socio socio) {
-    try {
-      String query = sqlQueries.getProperty("insert-socio");
 
-    
+  public void saveSocio(Socio socio) {
+      String query = sqlQueries.getProperty("insert-socio");
       Integer inscripcionFk = (socio.getIdInscripcionFk() == -1) ? null : socio.getIdInscripcionFk();
 
-      int rowsAffected = jdbcTemplate.update(query,
+      // Si jdbcTemplate falla (ej. el DNI ya existe), lanzará automáticamente una DataAccessException.
+      jdbcTemplate.update(query,
           socio.getDni(),
           socio.getNombre(),
           socio.getApellidos(),
@@ -58,12 +54,6 @@ public class SocioRepository extends AbstractRepository {
           socio.getTituloPatron(),
           inscripcionFk 
       );
-      return rowsAffected > 0;
-    } catch (DataAccessException e) {
-      System.err.println("Error al insertar socio: " + socio.getDni());
-      e.printStackTrace();
-      return false;
-    }
   }
 
   
