@@ -68,7 +68,8 @@ public class AsociarPatronEmbarcacionController {
                 // No hay confirmación, mostramos la vista de confirmación
                 model.addAttribute("embarcacion", embarcacion);
                 model.addAttribute("patronNuevo", patronNuevo);
-                return "confirmarReemplazoView"; // Vista 2: Confirmación
+                // [Regla de Comentarios: Regla 2 - Se elimina comentario de numeración interna del programador]
+                return "confirmarReemplazoView";
             }
             
         }

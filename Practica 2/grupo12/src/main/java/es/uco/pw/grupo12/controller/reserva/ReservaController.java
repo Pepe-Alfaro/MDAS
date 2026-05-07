@@ -85,10 +85,12 @@ public class ReservaController {
         }
 
         // 5. Validar Capacidad 
-        int plazasDisponibles = embarcacion.getPlazas() - 1; // Se resta la plaza del patrón
-        if (plazasSolicitadas <= 0 || plazasSolicitadas > plazasDisponibles) {
+        // [Regla de Comentarios: Regla 3 - Renombrar variable para explicar intención y borrar comentario]
+        int plazasExcluyendoAlPatron = embarcacion.getPlazas() - 1; 
+        
+        if (plazasSolicitadas <= 0 || plazasSolicitadas > plazasExcluyendoAlPatron) {
             model.addAttribute("exito", false);
-            model.addAttribute("mensaje", "Error: Número de plazas no válido. La embarcación tiene " + plazasDisponibles + " plazas disponibles (restando al patrón).");
+            model.addAttribute("mensaje", "Error: Número de plazas no válido. La embarcación tiene " + plazasExcluyendoAlPatron + " plazas disponibles (restando al patrón).");
             return "reservaResultado";
         }
 
@@ -103,8 +105,9 @@ public class ReservaController {
         // 7.Guardar reserva
         
         // [Regla de Nombrado: Regla 7 - Declarar variable para valor constante numérico]
+
         final double PRECIO_POR_PLAZA = 40.0;
-        
+        // [Buena Práctica - Formato Regla 3: Espaciado en asignaciones y operadores]
         // Calcular precio 
         double precioTotal = plazasSolicitadas * PRECIO_POR_PLAZA;
         
