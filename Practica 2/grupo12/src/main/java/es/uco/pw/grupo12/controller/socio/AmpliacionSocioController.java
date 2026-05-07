@@ -101,7 +101,7 @@ public class AmpliacionSocioController {
       
         Inscripcion inscripcionTemp = new Inscripcion(); 
         inscripcionTemp.setSociosVinculados(familiares);
-        inscripcionTemp.calcularCuota(); 
+        inscripcionTemp.calcularCuota(LocalDate.now()); 
         
         double nuevaCuota = inscripcionTemp.getCuota();
 
