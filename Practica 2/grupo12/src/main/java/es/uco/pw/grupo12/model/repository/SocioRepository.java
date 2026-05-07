@@ -40,7 +40,7 @@ public class SocioRepository extends AbstractRepository {
 
   
   // Guarda un nuevo socio en la base de datos.
- 
+  //Regla de funcion 2: // El método solo tiene un parámetro de entrada, evitando la explosión combinatoria en pruebas.
   public boolean saveSocio(Socio socio) {
     try {
       String query = sqlQueries.getProperty("insert-socio");
