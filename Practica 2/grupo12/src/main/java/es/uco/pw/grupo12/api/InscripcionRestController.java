@@ -200,6 +200,28 @@ public class InscripcionRestController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al desvincular el socio.");
         }
     }
+
+
+    // Aplicacion de regla de comentario 9: Cabeceras en funciones simples o métodos privados
+    //Aplicar regla 6 de formato desplazando el método recalcularYGuardarCuota cerca de sus funciones llamadoras en InscripcionRestController.java
+    private double recalcularYGuardarCuota(int idInscripcion) {
+        // 1. Recuperamos a TODOS los socios que quedan en la inscripción (familiares)
+        List<Socio> sociosActuales = socioRepository.findAllByInscripcionId(idInscripcion);
+        
+        // 2. Usamos tu clase de dominio para calcular el precio
+        Inscripcion inscripcionTemp = new Inscripcion();
+        // Nota: En tu modelo 'Inscripcion.calcularCuota' itera sobre 'sociosVinculados'.
+        // Al pasarle la lista de la BD, recalculamos el precio correcto según adultos/niños.
+        inscripcionTemp.setSociosVinculados(sociosActuales);
+        inscripcionTemp.calcularCuota(); 
+        
+        double nuevaCuota = inscripcionTemp.getCuota();
+        
+        // 3. Guardamos el nuevo precio en la BBDD usando el método existente
+        inscripcionRepository.updateInscripcionAFamiliar(idInscripcion, nuevaCuota);
+        
+        return nuevaCuota;
+    }
     
     // 3. Cancelar una inscripción individual o familiar (DELETE).
     @org.springframework.web.bind.annotation.DeleteMapping("/titular/{dni}")
@@ -230,23 +252,4 @@ public class InscripcionRestController {
         }
     }
 
-    // Aplicacion de regla de comentario 9: Cabeceras en funciones simples o métodos privados
-    private double recalcularYGuardarCuota(int idInscripcion) {
-        // 1. Recuperamos a TODOS los socios que quedan en la inscripción (familiares)
-        List<Socio> sociosActuales = socioRepository.findAllByInscripcionId(idInscripcion);
-        
-        // 2. Usamos tu clase de dominio para calcular el precio
-        Inscripcion inscripcionTemp = new Inscripcion();
-        // Nota: En tu modelo 'Inscripcion.calcularCuota' itera sobre 'sociosVinculados'.
-        // Al pasarle la lista de la BD, recalculamos el precio correcto según adultos/niños.
-        inscripcionTemp.setSociosVinculados(sociosActuales);
-        inscripcionTemp.calcularCuota(); 
-        
-        double nuevaCuota = inscripcionTemp.getCuota();
-        
-        // 3. Guardamos el nuevo precio en la BBDD usando el método existente
-        inscripcionRepository.updateInscripcionAFamiliar(idInscripcion, nuevaCuota);
-        
-        return nuevaCuota;
-    }
 }
