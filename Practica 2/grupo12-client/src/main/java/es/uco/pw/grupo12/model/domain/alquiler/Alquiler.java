@@ -43,10 +43,13 @@ public class Alquiler {
         this.fechaFin = LocalDate.now();
         this.precioTotal = 0.0;
     }
+
+     // Decisión de diseño: Se renombra la variable local de 'numPersonas' a 'totalPasajeros' 
+    // para reflejar con exactitud qué se está facturando y evitar ambigüedades (Técnica: Renombrar variable).
     private double calcularPrecio() {
         long dias = ChronoUnit.DAYS.between(fechaInicio, fechaFin) + 1; 
-        int numPersonas = sociosPasajeros != null ? sociosPasajeros.size() : 1;
-        return PRECIO_POR_PERSONA_DIA * numPersonas * dias;
+        int totalPasajeros = sociosPasajeros != null ? sociosPasajeros.size() : 1;
+        return PRECIO_POR_PERSONA_DIA * totalPasajeros * dias;
     }
 
     // Getters
