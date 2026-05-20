@@ -200,36 +200,38 @@ public class SocioRepository extends AbstractRepository {
       }
   }
 
-  //update socio para api
-  
+ 
     public boolean updateSocio(Socio socio) {
         try {
-            // Buscamos la propiedad update-socio en sql-properties
-            String query = sqlQueries.getProperty("update-socio");
-            if (query == null) {
-                System.err.println("La query 'update-socio' no se encontró en sql.properties.");
-                return false;
-            }
-
-            Integer idInscripcion = (socio.getIdInscripcionFk() == -1) ? null : socio.getIdInscripcionFk();
-
-            int rowsAffected = jdbcTemplate.update(query,
-                    socio.getNombre(),
-                    socio.getApellidos(),
-                    socio.getFechaNacimiento(),
-                    socio.getDireccion(),
-                    socio.getFechaInscripcion(),
-                    socio.getTituloPatron(),
-                    idInscripcion,
-                    socio.getDni() // El DNI es el criterio (WHERE dni = ?)
-            );
-
-            return rowsAffected > 0;
-        } catch (DataAccessException e) {
+           
+            return ejecutarUpdateSocio(socio);
+        } catch (DataAccessException | IllegalStateException e) {
             System.err.println("Error al actualizar socio con DNI: " + socio.getDni());
             e.printStackTrace();
             return false;
         }
+    }
+
+    private boolean ejecutarUpdateSocio(Socio socio) {
+        String query = sqlQueries.getProperty("update-socio");
+        
+        if (query == null) {
+            throw new IllegalStateException("La query 'update-socio' no se encontró en sql.properties.");
+        }
+
+        Integer idInscripcion = (socio.getIdInscripcionFk() == -1) ? null : socio.getIdInscripcionFk();
+        int rowsAffected = jdbcTemplate.update(query,
+                socio.getNombre(),
+                socio.getApellidos(),
+                socio.getFechaNacimiento(),
+                socio.getDireccion(),
+                socio.getFechaInscripcion(),
+                socio.getTituloPatron(),
+                idInscripcion,
+                socio.getDni() // El DNI es el criterio (WHERE dni = ?)
+        );
+
+        return rowsAffected > 0;
     }
 
   
@@ -245,9 +247,6 @@ public class SocioRepository extends AbstractRepository {
         }
     }
 
-    
-     // Desvincula a TODOS los socios de una inscripción específica.
-     // Se usa antes de borrar la inscripción para no perder a los socios.
      
     public boolean desvincularTodosDeInscripcion(int idInscripcion) {
         try {

@@ -34,7 +34,9 @@ public class AltaEmbarcacionController {
 
     
     // Procesa el formulario de alta de embarcación.
-     
+     // [Buena Práctica - Regla de Argumentos: Agrupación en Objetos (Parameter Object)]
+    // Se agrupan los múltiples datos del formulario en la clase Embarcacion, 
+    // evitando una firma de método larga y confusa.
     @PostMapping("/altaEmbarcacion")
     public String procesarFormulario(@ModelAttribute Embarcacion embarcacion, RedirectAttributes redirectAttributes, Model model) {
 

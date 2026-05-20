@@ -74,24 +74,16 @@ public class EmbarcacionRepository extends AbstractRepository {
         }
     }
 
-    public boolean save(Embarcacion embarcacion) {
-        try {
-            String query = sqlQueries.getProperty("insert-embarcacion");
-            
-            int rows = jdbcTemplate.update(query,
-                    embarcacion.getMatricula(),
-                    embarcacion.getTipo().toString(),
-                    embarcacion.getNombre(),
-                    embarcacion.getPlazas(),
-                    embarcacion.getDimensiones(),
-                    null 
-            );
-            return rows > 0;
-        } catch (DataAccessException e) {
-            System.err.println("Error al insertar embarcación: " + embarcacion.getMatricula());
-            e.printStackTrace();
-            return false;
-        }
+    public void save(Embarcacion embarcacion) {
+        String query = sqlQueries.getProperty("insert-embarcacion");
+        jdbcTemplate.update(query,
+                embarcacion.getMatricula(),
+                embarcacion.getTipo().toString(),
+                embarcacion.getNombre(),
+                embarcacion.getPlazas(),
+                embarcacion.getDimensiones(),
+                null 
+        );
     }
 
     public List<Embarcacion> findAll() {
@@ -123,25 +115,27 @@ public class EmbarcacionRepository extends AbstractRepository {
     }
 
     // Asocia un patrón a una embarcación.
-   
     public boolean asociarPatron(String matricula, String dniPatron) {
         try {
-            String query = sqlQueries.getProperty("update-embarcacion-asociarPatron"); 
-            if (query == null) {
-                System.err.println("Error: no se encontró la consulta 'update-embarcacion-asociarPatron' en sql.properties");
-                return false;
-            }
-            
-            // Si el DNI es "-1" (valor por defecto), lo guardamos como NULL en la BD
-            String patronDniFinal = (dniPatron != null && dniPatron.equals("-1")) ? null : dniPatron;
-            
-            int rows = jdbcTemplate.update(query, patronDniFinal, matricula);
-            return rows > 0;
-        } catch (DataAccessException e) {
+            return ejecutarAsociarPatron(matricula, dniPatron);
+        } catch (DataAccessException | IllegalStateException e) {
             System.err.println("Error al asociar patrón " + dniPatron + " a embarcación " + matricula);
             e.printStackTrace();
             return false;
         }
+    }
+
+    private boolean ejecutarAsociarPatron(String matricula, String dniPatron) {
+        String query = sqlQueries.getProperty("update-embarcacion-asociarPatron"); 
+        
+        if (query == null) {
+            // Lanzamos la excepción para que Función 1 la capture
+            throw new IllegalStateException("La consulta 'update-embarcacion-asociarPatron' no se encontró en sql.properties");
+        }
+        
+        String patronDniFinal = (dniPatron != null && dniPatron.equals("-1")) ? null : dniPatron;    
+        int rows = jdbcTemplate.update(query, patronDniFinal, matricula);
+        return rows > 0;
     }
 
     // Busca embarcaciones que no tengan reservas en un rango de fechas.

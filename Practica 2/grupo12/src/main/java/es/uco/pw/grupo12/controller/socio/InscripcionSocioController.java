@@ -33,7 +33,8 @@ public class InscripcionSocioController {
     }
 
     // Procesa el formulario de inscripción de socio.
-     
+     // [Buena Práctica - Regla de Argumentos: Mantener la firma corta]
+    // El método tiene únicamente 2 argumentos, respetando el límite máximo recomendado por Clean Code.
     @PostMapping("/inscribirSocio")
     public String procesarInscripcionSocio(@ModelAttribute Socio socio, RedirectAttributes redirectAttributes) {
 
