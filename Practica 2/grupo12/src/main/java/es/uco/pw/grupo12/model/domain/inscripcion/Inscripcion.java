@@ -77,7 +77,7 @@ public class Inscripcion {
         int count = 0;
 
         for (Socio socio : sociosVinculados) {
-            if (esMayorDeEdad(socio, fechaHoy)) {
+            if (socio.esMayorDeEdad()) {
                 count++;
             }
         }
@@ -113,9 +113,6 @@ public class Inscripcion {
      
     // Decisión de diseño: Se transforma en una función pura al recibir la fecha de 
     // referencia por parámetro, eliminando la dependencia oculta de LocalDate.now() (Regla 4 de funciones).
-    private boolean esMayorDeEdad(Socio socio, LocalDate fechaHoy) {
-        return socio.getFechaNacimiento().plusYears(18).isBefore(fechaHoy);
-    }
 
     // Getters
 
