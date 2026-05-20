@@ -74,15 +74,13 @@ public class Inscripcion {
     }
 
     private int obtenerCantidadAdultos(LocalDate fechaHoy) {
-        int count = 0;
 
-        for (Socio socio : sociosVinculados) {
-            if (socio.esMayorDeEdad()) {
-                count++;
-            }
-        }
-        return count;
-    }
+    // Decisión de diseño: Se reemplaza el bucle imperativo 'for' por un flujo de datos 
+    // (Stream) para contar los elementos de forma directa y declarativa (Técnica: Reemplazar bucle por flujo).
+    return (int) sociosVinculados.stream()
+                                 .filter(Socio::esMayorDeEdad)
+                                 .count();
+}
 
     private int obtenerCantidadHijos(int numAdultos) {
         return sociosVinculados.size() - numAdultos;
