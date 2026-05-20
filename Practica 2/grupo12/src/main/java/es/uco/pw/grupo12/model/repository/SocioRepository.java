@@ -280,4 +280,10 @@ public class SocioRepository extends AbstractRepository {
             return false;
         }
     }
+
+
+    public boolean updateInscripcionFk(String dniNuevoMiembro, int idInscripcion) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateInscripcionFk'");
+    }
 }

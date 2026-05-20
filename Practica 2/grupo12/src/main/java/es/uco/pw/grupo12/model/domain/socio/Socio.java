@@ -103,9 +103,13 @@ public class Socio {
         this.esTitular = esTitular;
     }
 
+     // Decisión de diseño: Se extrae el cálculo repetido a una variable explicativa 
+    // para aclarar la condición booleana (Técnica: Extraer Variable).
     public boolean esMayorDeEdad() {
-        return this.fechaNacimiento.plusYears(18).isBefore(LocalDate.now()) || 
-               this.fechaNacimiento.plusYears(18).isEqual(LocalDate.now());
+        LocalDate fechaMayoriaEdad = this.fechaNacimiento.plusYears(18);
+
+        return fechaMayoriaEdad.isBefore(LocalDate.now()) || 
+            fechaMayoriaEdad.isEqual(LocalDate.now());
     }
     @Override
     public String toString() {
