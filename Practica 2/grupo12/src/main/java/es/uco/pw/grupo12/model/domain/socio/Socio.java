@@ -84,7 +84,12 @@ public class Socio {
         this.apellidos = apellidos;
     }
     
+    // Decisión de diseño: Se fortalece la encapsulación de la variable añadiendo 
+    // validación lógica para controlar qué datos pueden alterarla (Técnica: Encapsular Variable).
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
+    if (fechaNacimiento != null && fechaNacimiento.isAfter(LocalDate.now())) {
+        throw new IllegalArgumentException("La fecha de nacimiento no puede ser futura");
+        }
         this.fechaNacimiento = fechaNacimiento;
     }
     public void setDireccion(String direccion) {
@@ -103,9 +108,13 @@ public class Socio {
         this.esTitular = esTitular;
     }
 
+     // Decisión de diseño: Se extrae el cálculo repetido a una variable explicativa 
+    // para aclarar la condición booleana (Técnica: Extraer Variable).
     public boolean esMayorDeEdad() {
-        return this.fechaNacimiento.plusYears(18).isBefore(LocalDate.now()) || 
-               this.fechaNacimiento.plusYears(18).isEqual(LocalDate.now());
+        LocalDate fechaMayoriaEdad = this.fechaNacimiento.plusYears(18);
+
+        return fechaMayoriaEdad.isBefore(LocalDate.now()) || 
+            fechaMayoriaEdad.isEqual(LocalDate.now());
     }
     @Override
     public String toString() {

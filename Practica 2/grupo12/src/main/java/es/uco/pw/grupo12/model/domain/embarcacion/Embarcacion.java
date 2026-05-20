@@ -1,4 +1,4 @@
-package es.uco.pw.grupo12.model.domain.embarcacion;
+    package es.uco.pw.grupo12.model.domain.embarcacion;
 import es.uco.pw.grupo12.model.domain.patron.Patron;
 import java.math.BigDecimal;
 
