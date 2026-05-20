@@ -43,22 +43,22 @@ public class SocioRepository extends AbstractRepository {
   //Regla de funcion 2: // El método solo tiene un parámetro de entrada, evitando la explosión combinatoria en pruebas.
   public boolean saveSocio(Socio socio) {
     try {
-      String query = sqlQueries.getProperty("insert-socio");
+        String query = sqlQueries.getProperty("insert-socio");
 
-    
-      Integer inscripcionFk = (socio.getIdInscripcionFk() == -1) ? null : socio.getIdInscripcionFk();
-
-      int rowsAffected = jdbcTemplate.update(query,
-          socio.getDni(),
-          socio.getNombre(),
-          socio.getApellidos(),
-          socio.getFechaNacimiento(),
-          socio.getDireccion(),
-          socio.getFechaInscripcion(),
-          socio.getTituloPatron(),
-          inscripcionFk 
-      );
-      return rowsAffected > 0;
+        // Decisión de diseño: Se elimina la variable local 'inscripcionFk' y se 
+        // incorpora la lógica directamente en el método (Técnica: Incorporar Variable).
+        int rowsAffected = jdbcTemplate.update(query,
+            socio.getDni(),
+            socio.getNombre(),
+            socio.getApellidos(),
+            socio.getFechaNacimiento(),
+            socio.getDireccion(),
+            socio.getFechaInscripcion(),
+            socio.getTituloPatron(),
+            (socio.getIdInscripcionFk() == -1) ? null : socio.getIdInscripcionFk() // <--- Expresión incorporada
+        );
+        return rowsAffected > 0;
+        
     } catch (DataAccessException e) {
       System.err.println("Error al insertar socio: " + socio.getDni());
       e.printStackTrace();

@@ -84,7 +84,12 @@ public class Socio {
         this.apellidos = apellidos;
     }
     
+    // Decisión de diseño: Se fortalece la encapsulación de la variable añadiendo 
+    // validación lógica para controlar qué datos pueden alterarla (Técnica: Encapsular Variable).
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
+    if (fechaNacimiento != null && fechaNacimiento.isAfter(LocalDate.now())) {
+        throw new IllegalArgumentException("La fecha de nacimiento no puede ser futura");
+        }
         this.fechaNacimiento = fechaNacimiento;
     }
     public void setDireccion(String direccion) {
