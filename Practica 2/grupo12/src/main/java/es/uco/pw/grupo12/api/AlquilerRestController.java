@@ -111,47 +111,43 @@ public class AlquilerRestController {
     }
     
     // 1. Vincular a un nuevo socio (pasajero) a un alquiler futuro (PATCH)
-    @PatchMapping("/{id}/addPasajero")
-public ResponseEntity<String> addPasajero(
-        @PathVariable int id,
-        @RequestParam String dni) {
-
-    // 1. Limpieza del DNI
+@PatchMapping("/{id}/addPasajero")
+public ResponseEntity<String> addPasajero(@PathVariable int id, @RequestParam String dni) {
     if (dni == null || dni.trim().isEmpty()) {
         return ResponseEntity.badRequest().body("El DNI es obligatorio.");
     }
     String dniLimpio = dni.trim().toUpperCase();
-    // 2. Buscar el alquiler
     Alquiler alquiler = alquilerRepository.findAlquilerById(id);
     if (alquiler == null) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El alquiler no existe.");
     }
-    // 3. Validar estado del alquiler (Fecha)
+
+    // Llamada a la función que hace una sola cosa: validar
+    ResponseEntity<String> errorValidacion = validarRequisitosPasajero(alquiler, dniLimpio);
+    if (errorValidacion != null) {
+        return errorValidacion;
+    }
+
+    boolean isPasajeroVinculado = alquilerRepository.addPasajero(id, dniLimpio);
+    if (!isPasajeroVinculado) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se pudo añadir.");
+    }
+    return ResponseEntity.ok("Pasajero añadido correctamente.");
+}
+
+private ResponseEntity<String> validarRequisitosPasajero(Alquiler alquiler, String dni) {
     if (!alquiler.getFechaInicio().isAfter(LocalDate.now())) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se puede modificar un alquiler pasado o en curso.");
     }
-    // Comprobar plazas
-    int maxPlazas = alquiler.getEmbarcacion().getPlazas(); 
-    List<String> pasajerosActuales = alquilerRepository.findPasajerosByAlquiler(id);
-    int ocupacionActual = pasajerosActuales.size();
-    if (ocupacionActual + 1 >= maxPlazas) { 
+    List<String> pasajeros = alquilerRepository.findPasajerosByAlquiler(alquiler.getIdAlquiler());
+    if (pasajeros.size() + 1 >= alquiler.getEmbarcacion().getPlazas()) { 
         return ResponseEntity.status(HttpStatus.CONFLICT).body("La embarcación ha alcanzado su capacidad máxima.");
     }
-    
-    // 4. Verificar si ya está añadido
-    if (pasajerosActuales.contains(dniLimpio)) {
+    if (pasajeros.contains(dni)) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El pasajero ya está incluido en este alquiler.");
     }
-    // 5. Guardar
-
-    //cambio el nombre de variable guardado por isPasajeroEliminado. Aplicando al regla de nombrado 1.
-    boolean isPasajeroVinculado = alquilerRepository.addPasajero(id, dniLimpio);
-    if (!isPasajeroVinculado) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se pudo añadir. Verifique que el DNI exista en el sistema.");
-    }
-        return ResponseEntity.ok("Pasajero añadido correctamente.");
-    }
-
+    return null;
+}
     // 2. Desvincular a un socio de un alquiler futuro (PATCH)
     @PatchMapping("/{id}/removePasajero")
 public ResponseEntity<String> removePasajero(

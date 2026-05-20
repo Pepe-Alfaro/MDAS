@@ -67,59 +67,62 @@ public class ReservaRestController {
 
     // 4. Crear una nueva reserva (POST)
     @PostMapping
-    public ResponseEntity<?> crearReserva(@RequestBody Reserva reserva) {
-
-        // 1. Validar datos
-        if (reserva.getSocioSolicitante() == null || reserva.getSocioSolicitante().getDni() == null ||
-            reserva.getEmbarcacion() == null || reserva.getEmbarcacion().getMatricula() == null ||
-            reserva.getFechaActividad() == null) {
-            return new ResponseEntity<>("Faltan datos (DNI, Matrícula o Fecha)", HttpStatus.BAD_REQUEST);
-        }
-
-        String matricula = reserva.getEmbarcacion().getMatricula();
-        LocalDate fecha = reserva.getFechaActividad();
-
-        // 2. Recuperar entidades completas
-        Socio socio = socioRepository.findSocioByDni(reserva.getSocioSolicitante().getDni());
-        Embarcacion barco = embarcacionRepository.findByMatricula(matricula);
-
-        if (socio == null || barco == null) {
-            return new ResponseEntity<>("Socio o Embarcación no encontrados", HttpStatus.BAD_REQUEST);
-        }
-
-        // Asignamos los objetos completos a la reserva
-        reserva.setSocioSolicitante(socio);
-        reserva.setEmbarcacion(barco);
-
-        // 3. Validaciones
-
-        // Validar Patrón
-        if (barco.getPatron() == null || "-1".equals(barco.getPatron().getDni())) {
-            return new ResponseEntity<>("La embarcación no tiene patrón asignado", HttpStatus.CONFLICT);
-        }
-
-        // Validar Disponibilidad
-        if (embarcacionRepository.checkDisponibilidadReserva(matricula, fecha, fecha) ||
-            embarcacionRepository.checkDisponibilidadAlquiler(matricula, fecha, fecha)) {
-            return new ResponseEntity<>("La embarcación no está disponible en esa fecha", HttpStatus.CONFLICT);
-        }
-
-        // Validar Capacidad
-        int plazasDisponibles = barco.getPlazas() - 1; // Restamos al patrón
-        if (reserva.getPlazasSolicitadas() > plazasDisponibles) {
-            return new ResponseEntity<>("Excede la capacidad máxima (" + plazasDisponibles + " plazas)", HttpStatus.BAD_REQUEST);
-        }
-
-        // Calcular Precio (Automático)
-        reserva.setPlazasSolicitadas(reserva.getPlazasSolicitadas());
-
-        // 4. Guardar
-        if (reservaRepository.saveReserva(reserva)) {
-            return new ResponseEntity<>("Reserva creada. Precio: " + reserva.getPrecioTotal() + "€", HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>("Error al guardar la reserva", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+public ResponseEntity<?> crearReserva(@RequestBody Reserva reserva) {
+    if (esInvalidaEstructuraReserva(reserva)) {
+        return new ResponseEntity<>("Faltan datos (DNI, Matrícula o Fecha)", HttpStatus.BAD_REQUEST);
     }
+
+    Socio socio = socioRepository.findSocioByDni(reserva.getSocioSolicitante().getDni());
+    Embarcacion barco = embarcacionRepository.findByMatricula(reserva.getEmbarcacion().getMatricula());
+
+    if (socio == null || barco == null) {
+        return new ResponseEntity<>("Socio o Embarcación no encontrados", HttpStatus.BAD_REQUEST);
+    }
+
+    reserva.setSocioSolicitante(socio);
+    reserva.setEmbarcacion(barco);
+
+    // Delegamos todas las validaciones de negocio complejas en una sola función
+    ResponseEntity<?> respuestaErrorValidacion = validarRequisitosReserva(reserva, barco);
+    if (respuestaErrorValidacion != null) {
+        return respuestaErrorValidacion;
+    }
+
+    if (reservaRepository.saveReserva(reserva)) {
+        return new ResponseEntity<>("Reserva creada. Precio: " + reserva.getPrecioTotal() + "€", HttpStatus.CREATED);
+    }
+    
+    return new ResponseEntity<>("Error al guardar la reserva", HttpStatus.INTERNAL_SERVER_ERROR);
+}
+
+// Método auxiliar de bajo nivel para verificar la nulabilidad estructural
+private boolean esInvalidaEstructuraReserva(Reserva reserva) {
+    return reserva.getSocioSolicitante() == null || reserva.getSocioSolicitante().getDni() == null ||
+           reserva.getEmbarcacion() == null || reserva.getEmbarcacion().getMatricula() == null ||
+           reserva.getFechaActividad() == null;
+}
+
+// Método auxiliar que centraliza la lógica de validación de negocio usando Cláusulas de guarda
+private ResponseEntity<?> validarRequisitosReserva(Reserva reserva, Embarcacion barco) {
+    String matricula = barco.getMatricula();
+    LocalDate fecha = reserva.getFechaActividad();
+
+    if (barco.getPatron() == null || "-1".equals(barco.getPatron().getDni())) {
+        return new ResponseEntity<>("La embarcación no tiene patrón asignado", HttpStatus.CONFLICT);
+    }
+
+    if (embarcacionRepository.checkDisponibilidadReserva(matricula, fecha, fecha) ||
+        embarcacionRepository.checkDisponibilidadAlquiler(matricula, fecha, fecha)) {
+        return new ResponseEntity<>("La embarcación no está disponible en esa fecha", HttpStatus.CONFLICT);
+    }
+
+    int plazasDisponibles = barco.getPlazas() - 1; 
+    if (reserva.getPlazasSolicitadas() > plazasDisponibles) {
+        return new ResponseEntity<>("Excede la capacidad máxima (" + plazasDisponibles + " plazas)", HttpStatus.BAD_REQUEST);
+    }
+
+    return null;
+}
 
     // -------------------------------------------------------------------------
     // 1. Modificar fecha a una posterior (PATCH)
