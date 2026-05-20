@@ -141,11 +141,7 @@ public class SocioRestController {
         
         
         if (socioUpdates.getTituloPatron() != socioExistente.getTituloPatron()) {
-             
-             if(socioUpdates.getTituloPatron()) {
-                 socioExistente.setTituloPatron(true);
-             }
-             
+        socioExistente.setTituloPatron(socioUpdates.getTituloPatron());
         }
 
         // 3. Guardar los cambios
@@ -174,9 +170,11 @@ public class SocioRestController {
 
         // 2. Verificar si está vinculado a una inscripción (Sin inscripcion ID = -1)
       
-        if (socio.getIdInscripcionFk() != -1 && socio.getIdInscripcionFk() != 0) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("No se puede eliminar al socio " + dni + " porque está vinculado a la inscripción ID: " + socio.getIdInscripcionFk());
+       boolean estaVinculadoAInscripcion = socio.getIdInscripcionFk() != -1 && socio.getIdInscripcionFk() != 0;
+    
+        if (estaVinculadoAInscripcion) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body("No se puede eliminar al socio " + dni + " porque está vinculado a la inscripción ID: " + socio.getIdInscripcionFk());
         }
 
         // 3. Ejecutar el borrado
