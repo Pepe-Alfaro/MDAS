@@ -1,13 +1,11 @@
 package es.uco.pw.grupo12.model.domain.socio;
 
 import java.time.LocalDate;
+import es.uco.pw.grupo12.model.domain.Persona; // Importamos la superclase
 
-public class Socio {
+// [Refactorización: Herencia - Socio hereda de Persona para reutilizar el código común]
+public class Socio extends Persona {
 
-    private String dni;
-    private String nombre;
-    private String apellidos;
-    private LocalDate fechaNacimiento;
     private String direccion;
     private LocalDate fechaInscripcion;
     private boolean tituloPatron;
@@ -15,23 +13,18 @@ public class Socio {
     private Boolean esTitular; // Este campo no está en la BBDD. Se rellenará mediante la consulta.
 
     public Socio(){
-        this.dni="-1";
-        this.nombre="";
-        this.apellidos="";
-        this.fechaNacimiento=LocalDate.now();
+        super("-1", "", "", LocalDate.now()); // Llamada al constructor de Persona
         this.direccion="";
         this.fechaInscripcion=LocalDate.now();
         this.tituloPatron=false;
         this.idInscripcionFk=-1;
         this.esTitular = false; // Valor por defecto
     }
+    
     public Socio(String dni, String nombre, String apellidos, LocalDate fechaNacimiento,
                  String direccion, LocalDate fechaInscripcion) {
-
-        this.nombre = nombre;
-        this.apellidos = apellidos;
-        this.dni = dni;
-        this.fechaNacimiento = fechaNacimiento;
+        
+        super(dni, nombre, apellidos, fechaNacimiento); // Llamada al constructor de Persona
         this.direccion = direccion;
         this.fechaInscripcion = fechaInscripcion;
         this.tituloPatron = false; // valor por defecto
@@ -39,32 +32,23 @@ public class Socio {
         this.esTitular = false; // Valor por defecto
     }
 
-    //Getters
-    public String getDni() {
-        return dni;
-    }
-    public String getNombre() {
-        return nombre;
-    }
-    public String getApellidos() {
-        return apellidos;
-    }
-    
-    public LocalDate getFechaNacimiento() {
-        return fechaNacimiento;
-    }
+    // Getters específicos de Socio
     public String getDireccion() {
         return direccion;
     }
+    
     public LocalDate getFechaInscripcion() {
         return fechaInscripcion;
     }
+    
     public boolean getTituloPatron() {
         return tituloPatron;
     }
+    
     public int getIdInscripcionFk() { 
         return idInscripcionFk; 
     }
+    
     public Boolean getEsTitular() {
         if (this.esTitular == null) {
             return false; // Seguridad por si no se ha seteado
@@ -72,45 +56,38 @@ public class Socio {
         return esTitular;
     }
 
-
-    //Setters
-    public void setDni(String dni) {
-        this.dni = dni;
-    }
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
-    
-    public void setFechaNacimiento(LocalDate fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
+    // Setters específicos de Socio
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
+    
     public void setFechaInscripcion(LocalDate fechaInscripcion) {
         this.fechaInscripcion = fechaInscripcion;
     }
+    
     public void setTituloPatron(boolean tituloPatron) {
         this.tituloPatron = tituloPatron;
     }
+    
     public void setIdInscripcionFk(int idInscripcionFk) { 
         this.idInscripcionFk = idInscripcionFk;
     }
+    
     public void setEsTitular(Boolean esTitular) {
         this.esTitular = esTitular;
     }
 
     public boolean esMayorDeEdad() {
-        return this.fechaNacimiento.plusYears(18).isBefore(LocalDate.now()) || 
-               this.fechaNacimiento.plusYears(18).isEqual(LocalDate.now());
+        // Al usar herencia, llamamos al getter de la superclase
+        return this.getFechaNacimiento().plusYears(18).isBefore(LocalDate.now()) || 
+               this.getFechaNacimiento().plusYears(18).isEqual(LocalDate.now());
     }
+    
     @Override
     public String toString() {
-    return "Socio [dni=" + dni + ", nombre=" + nombre + ", apellidos=" + apellidos + 
-           ", fechaNacimiento=" + fechaNacimiento + ", direccion=" + direccion + 
+    // Usamos los getters heredados (getDni, getNombre...) para montar el String
+    return "Socio [dni=" + getDni() + ", nombre=" + getNombre() + ", apellidos=" + getApellidos() + 
+           ", fechaNacimiento=" + getFechaNacimiento() + ", direccion=" + direccion + 
            ", fechaInscripcion=" + fechaInscripcion + ", tituloPatron=" + tituloPatron + 
            ", idInscripcionFk=" + idInscripcionFk + ", esTitular=" + esTitular + "]";
     }
