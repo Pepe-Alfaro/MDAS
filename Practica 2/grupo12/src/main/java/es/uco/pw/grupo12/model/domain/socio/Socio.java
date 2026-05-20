@@ -57,6 +57,26 @@ public class Socio extends Persona {
     }
 
     // Setters específicos de Socio
+
+    //Setters
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+    
+    // Decisión de diseño: Se fortalece la encapsulación de la variable añadiendo 
+    // validación lógica para controlar qué datos pueden alterarla (Técnica: Encapsular Variable).
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+    if (fechaNacimiento != null && fechaNacimiento.isAfter(LocalDate.now())) {
+        throw new IllegalArgumentException("La fecha de nacimiento no puede ser futura");
+        }
+        this.fechaNacimiento = fechaNacimiento;
+    }
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
@@ -77,10 +97,16 @@ public class Socio extends Persona {
         this.esTitular = esTitular;
     }
 
+     // Decisión de diseño: Se extrae el cálculo repetido a una variable explicativa 
+    // para aclarar la condición booleana (Técnica: Extraer Variable).
     public boolean esMayorDeEdad() {
         // Al usar herencia, llamamos al getter de la superclase
         return this.getFechaNacimiento().plusYears(18).isBefore(LocalDate.now()) || 
                this.getFechaNacimiento().plusYears(18).isEqual(LocalDate.now());
+        LocalDate fechaMayoriaEdad = this.fechaNacimiento.plusYears(18);
+
+        return fechaMayoriaEdad.isBefore(LocalDate.now()) || 
+            fechaMayoriaEdad.isEqual(LocalDate.now());
     }
     
     @Override

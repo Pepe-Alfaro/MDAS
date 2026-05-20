@@ -74,15 +74,13 @@ public class Inscripcion {
     }
 
     private int obtenerCantidadAdultos(LocalDate fechaHoy) {
-        int count = 0;
 
-        for (Socio socio : sociosVinculados) {
-            if (esMayorDeEdad(socio, fechaHoy)) {
-                count++;
-            }
-        }
-        return count;
-    }
+    // Decisión de diseño: Se reemplaza el bucle imperativo 'for' por un flujo de datos 
+    // (Stream) para contar los elementos de forma directa y declarativa (Técnica: Reemplazar bucle por flujo).
+    return (int) sociosVinculados.stream()
+                                 .filter(Socio::esMayorDeEdad)
+                                 .count();
+}
 
     private int obtenerCantidadHijos(int numAdultos) {
         return sociosVinculados.size() - numAdultos;
@@ -113,9 +111,6 @@ public class Inscripcion {
      
     // Decisión de diseño: Se transforma en una función pura al recibir la fecha de 
     // referencia por parámetro, eliminando la dependencia oculta de LocalDate.now() (Regla 4 de funciones).
-    private boolean esMayorDeEdad(Socio socio, LocalDate fechaHoy) {
-        return socio.getFechaNacimiento().plusYears(18).isBefore(fechaHoy);
-    }
 
     // Getters
 
