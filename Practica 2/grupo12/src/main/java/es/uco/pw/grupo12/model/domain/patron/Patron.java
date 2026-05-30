@@ -1,71 +1,38 @@
 package es.uco.pw.grupo12.model.domain.patron;
 
 import java.time.LocalDate;
+import es.uco.pw.grupo12.model.domain.Persona; // Importamos la superclase
 
-public class Patron {
-    private String dni;
-    private String nombre;
-    private String apellidos;
-    private LocalDate fechaNacimiento;
+// [Refactorización: Herencia - Patron hereda de Persona para reutilizar el código común]
+public class Patron extends Persona {
+    
     private LocalDate fechaExpedicionTitulo;
 
     public Patron(){
-       this.dni="-1";
-       this.nombre="";
-       this.apellidos="";
-       this.fechaNacimiento=LocalDate.now();       
+       super("-1", "", "", LocalDate.now()); // Llamada al constructor de Persona
        this.fechaExpedicionTitulo=LocalDate.now();  
     }
 
     public Patron(String dni,String nombre,String apellidos,LocalDate fechaNacimiento,LocalDate fechaExpedicionTitulo){
-        this.dni=dni;
-        this.nombre=nombre;
-        this.apellidos=apellidos;
-        this.fechaNacimiento=fechaNacimiento;
+        super(dni, nombre, apellidos, fechaNacimiento); // Llamada al constructor de Persona
         this.fechaExpedicionTitulo=fechaExpedicionTitulo;
     }
 
-
-//Getters
-    public String getNombre() {
-        return nombre;
-    }
-    public String getApellidos() {
-        return apellidos;
-    }
-    public String getDni() {
-        return dni;
-
-    }
-    public LocalDate getFechaNacimiento() {
-        return fechaNacimiento;
-    }
-    
+    // Getters específicos de Patron
     public LocalDate getFechaExpedicionTitulo(){
         return fechaExpedicionTitulo;
     } 
 
-//Setters
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
-    public void setDni(String dni) {
-        this.dni = dni;
-    }
-    public void setFechaNacimiento(LocalDate fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
+    // Setters específicos de Patron
     public void setFechaExpedicionTitulo(LocalDate fechaExpedicion){
         this.fechaExpedicionTitulo=fechaExpedicion;
     }
 
     @Override
     public String toString() {
-        return "Patron [dni=" + dni + ", nombre=" + nombre + ", apellidos=" + apellidos + 
-           ", fechaNacimiento=" + fechaNacimiento + 
+        // Usamos los getters heredados para montar el String
+        return "Patron [dni=" + getDni() + ", nombre=" + getNombre() + ", apellidos=" + getApellidos() + 
+           ", fechaNacimiento=" + getFechaNacimiento() + 
            ", fechaExpedicionTitulo=" + fechaExpedicionTitulo + "]";
     }
 }

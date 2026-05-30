@@ -38,6 +38,7 @@ public class SocioRepository extends AbstractRepository {
     }
   }
 
+  
 
   // Guarda un nuevo socio devolviendo códigos de éxito (true/false)
   public boolean saveSocio(Socio socio) {
@@ -284,4 +285,7 @@ public class SocioRepository extends AbstractRepository {
             return false;
         }
     }
+
+
+ 
 }

@@ -4,7 +4,6 @@ import es.uco.pw.grupo12.model.domain.socio.Socio;
 import es.uco.pw.grupo12.model.domain.embarcacion.Embarcacion;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Collections;
 import java.util.ArrayList;
@@ -20,8 +19,10 @@ public class Alquiler {
     private Socio socioTitular;
     private List<Socio> sociosPasajeros; 
     private Embarcacion embarcacion;
-    private LocalDate fechaInicio;
-    private LocalDate fechaFin;
+    
+    // [Refactorización: Encapsulación (Extraer Clase) - Sustituye a fechaInicio y fechaFin]
+    private RangoFechas rangoFechas;
+    
     private double precioTotal;
 
     public Alquiler(int idAlquiler, Socio socioTitular, List<Socio> sociosPasajeros,
@@ -31,8 +32,9 @@ public class Alquiler {
         this.socioTitular = socioTitular;
         this.sociosPasajeros = sociosPasajeros;
         this.embarcacion = embarcacion;
-        this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
+        
+        // Se inicializa el objeto extraído
+        this.rangoFechas = new RangoFechas(fechaInicio, fechaFin);
         this.precioTotal = calcularPrecio();
     }
 
@@ -41,8 +43,9 @@ public class Alquiler {
         this.socioTitular = new Socio();
         this.sociosPasajeros = null;
         this.embarcacion = new Embarcacion();
-        this.fechaInicio = LocalDate.now();
-        this.fechaFin = LocalDate.now();
+        
+        // Se inicializa el objeto extraído con las fechas de hoy
+        this.rangoFechas = new RangoFechas(LocalDate.now(), LocalDate.now());
         this.precioTotal = 0.0;
     }
 
@@ -71,12 +74,14 @@ public class Alquiler {
         return embarcacion;
     }
     
+    // [Refactorización: Extraer clase - Delegación]
     public LocalDate getFechaInicio(){
-        return fechaInicio;
+        return rangoFechas.getFechaInicio();
     }
     
+    // [Refactorización: Extraer clase - Delegación]
     public LocalDate getFechaFin(){
-        return fechaFin;
+        return rangoFechas.getFechaFin();
     }
     
     public double getPrecioTotal(){ 
@@ -118,13 +123,15 @@ public class Alquiler {
         this.embarcacion = embarcacion; 
     }
     
+    // [Refactorización: Extraer clase - Delegación de setter y recálculo]
     public void setFechaInicio(LocalDate fechaInicio){
-        this.fechaInicio = fechaInicio; 
+        this.rangoFechas.setFechaInicio(fechaInicio); 
         this.precioTotal = calcularPrecio();
     }
     
+    // [Refactorización: Extraer clase - Delegación de setter y recálculo]
     public void setFechaFin(LocalDate fechaFin){
-        this.fechaFin = fechaFin;
+        this.rangoFechas.setFechaFin(fechaFin);
         this.precioTotal = calcularPrecio();
     }
     
@@ -132,9 +139,10 @@ public class Alquiler {
         this.precioTotal = precioTotal;
     }
 
-    // Métodos extraídos que actúan como consultas (queries) [Refactorización: Reemplazar variable temporal por consulta]
+    // Métodos extraídos que actúan como consultas (queries) 
     private long getDiasAlquiler() {
-        return ChronoUnit.DAYS.between(fechaInicio, fechaFin) + 1;
+        // Ahora se delega el cálculo de días a la clase RangoFechas
+        return this.rangoFechas.getDias();
     }
 
     private int getNumeroPersonas() {
@@ -144,8 +152,8 @@ public class Alquiler {
     @Override
     public String toString() {
         return "Alquiler [idAlquiler=" + idAlquiler + ", socioTitular=" + socioTitular + ", sociosPasajeros="
-                + sociosPasajeros + ", embarcacion=" + embarcacion + ", fechaInicio=" + fechaInicio + ", fechaFin="
-                + fechaFin + ", precioTotal=" + precioTotal + ", calcularPrecio()=" + calcularPrecio()
+                + sociosPasajeros + ", embarcacion=" + embarcacion + ", fechaInicio=" + getFechaInicio() + ", fechaFin="
+                + getFechaFin() + ", precioTotal=" + precioTotal + ", calcularPrecio()=" + calcularPrecio()
                 + ", getIdAlquiler()=" + getIdAlquiler() + ", getSocioTitular()=" + getSocioTitular()
                 + ", getSociosPasajeros()=" + getSociosPasajeros() + ", getEmbarcacion()=" + getEmbarcacion()
                 + ", getFechaInicio()=" + getFechaInicio() + ", getFechaFin()=" + getFechaFin() + ", getPrecioTotal()="
