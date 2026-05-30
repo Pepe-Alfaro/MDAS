@@ -74,16 +74,26 @@ public class EmbarcacionRepository extends AbstractRepository {
         }
     }
 
-    public void save(Embarcacion embarcacion) {
-        String query = sqlQueries.getProperty("insert-embarcacion");
-        jdbcTemplate.update(query,
-                embarcacion.getMatricula(),
-                embarcacion.getTipo().toString(),
-                embarcacion.getNombre(),
-                embarcacion.getPlazas(),
-                embarcacion.getDimensiones(),
-                null 
-        );
+    public boolean save(Embarcacion embarcacion) {
+        try {
+            String query = sqlQueries.getProperty("insert-embarcacion");
+            
+            int rowsAffected = jdbcTemplate.update(query,
+                    embarcacion.getMatricula(),
+                    embarcacion.getTipo().toString(),
+                    embarcacion.getNombre(),
+                    embarcacion.getPlazas(),
+                    embarcacion.getDimensiones(),
+                    null 
+            );
+             
+            return rowsAffected > 0;
+
+        } catch (org.springframework.dao.DataAccessException e) {
+            System.err.println("Error al insertar la embarcación con matrícula: " + embarcacion.getMatricula());
+            e.printStackTrace(); 
+            return false; 
+        }
     }
 
     public List<Embarcacion> findAll() {

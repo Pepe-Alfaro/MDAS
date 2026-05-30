@@ -39,26 +39,41 @@ public class SocioRepository extends AbstractRepository {
   }
 
 
-  public void saveSocio(Socio socio) {
-      String query = sqlQueries.getProperty("insert-socio");
-      Integer inscripcionFk = (socio.getIdInscripcionFk() == -1) ? null : socio.getIdInscripcionFk();
+  // Guarda un nuevo socio devolviendo códigos de éxito (true/false)
+  public boolean saveSocio(Socio socio) {
+      try {
+          String query = sqlQueries.getProperty("insert-socio");
+          Integer inscripcionFk = (socio.getIdInscripcionFk() == -1) ? null : socio.getIdInscripcionFk();
 
-      // Si jdbcTemplate falla (ej. el DNI ya existe), lanzará automáticamente una DataAccessException.
-      jdbcTemplate.update(query,
-          socio.getDni(),
-          socio.getNombre(),
-          socio.getApellidos(),
-          socio.getFechaNacimiento(),
-          socio.getDireccion(),
-          socio.getFechaInscripcion(),
-          socio.getTituloPatron(),
-          inscripcionFk 
-      );
+          // El método update devuelve el número de filas afectadas
+          int rowsAffected = jdbcTemplate.update(query,
+              socio.getDni(),
+              socio.getNombre(),
+              socio.getApellidos(),
+              socio.getFechaNacimiento(),
+              socio.getDireccion(),
+              socio.getFechaInscripcion(),
+              socio.getTituloPatron(),
+              inscripcionFk 
+          );
+
+          // Si se ha insertado al menos 1 fila, la operación ha ido bien (true)
+          return rowsAffected > 0;
+
+      } catch (org.springframework.dao.DataAccessException e) {
+          // Si hay un error (ej. DNI duplicado o fallo de conexión), se captura aquí
+          System.err.println("Error al insertar el socio con DNI: " + socio.getDni());
+          e.printStackTrace(); // Muestra el error en la consola para poder depurar
+          return false; // Devuelve false indicando que estuvo mal
+      }
   }
 
   
   // Actualiza el campo id_inscripcion_fk de un socio existente.
-
+  public int updateInscripcionFk(String dni, int idInscripcion) {
+    String query = sqlQueries.getProperty("update-socio-inscripcion");
+    return jdbcTemplate.update(query, idInscripcion, dni);
+  }
   
   // Decisión de diseño: Se utiliza un nombre basado en la intención de negocio ("vincular") 
 // en lugar de un detalle técnico de BD ("update FK") (Regla 1 de funciones).

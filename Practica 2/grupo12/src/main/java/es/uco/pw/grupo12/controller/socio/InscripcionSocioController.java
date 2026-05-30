@@ -38,49 +38,46 @@ public class InscripcionSocioController {
     @PostMapping("/inscribirSocio")
     public String procesarInscripcionSocio(@ModelAttribute Socio socio, RedirectAttributes redirectAttributes) {
 
-        // 1. Validar DNI
+        // Validar DNI
         Socio socioExistente = socioRepository.findSocioByDni(socio.getDni());
         if (socioExistente != null) {
             redirectAttributes.addFlashAttribute("error", "El DNI " + socio.getDni() + " ya está registrado.");
-            return "redirect:/inscribirSocio"; // Recarga el formulario
+            return "redirect:/inscribirSocio"; 
         }
 
-        // 2. Validar Edad (Debe ser mayor de 18)
+        // Validar Edad (Debe ser mayor de 18)
         if (!socio.esMayorDeEdad()) {
             redirectAttributes.addFlashAttribute("error", "El socio debe ser mayor de edad para inscribirse como titular.");
-            return "redirect:/inscribirSocio"; // Recarga el formulario
+            return "redirect:/inscribirSocio"; 
         }
 
-        // 3. Establecer fecha de inscripción (hoy)
         socio.setFechaInscripcion(LocalDate.now());
 
-        // 4. Guardar el Socio primero
+        // Guardar el Socio primero
         boolean socioGuardado = socioRepository.saveSocio(socio);
-
         if (!socioGuardado) {
             redirectAttributes.addFlashAttribute("error", "Error al guardar el socio en la base de datos.");
             return "redirect:/inscribirSocio";
         }
 
-        // 5. Crear la Inscripción Individual
+        // Crear la Inscripción Individual
         int nuevaInscripcionId = inscripcionRepository.saveInscripcionIndividual(socio);
-
         if (nuevaInscripcionId == -1) {
             redirectAttributes.addFlashAttribute("error", "Error al crear la inscripción. Contacte a soporte.");
             return "redirect:/inscribirSocio";
         }
 
-        // 6. Vincular la Inscripción al Socio (Actualizar FK)
-        boolean fkActualizada = socioRepository.updateInscripcionFk(socio.getDni(), nuevaInscripcionId);
+        // CORRECCIÓN: updateInscripcionFk devuelve un int (filas afectadas)
+        int filasAfectadas = socioRepository.updateInscripcionFk(socio.getDni(), nuevaInscripcionId);
+        boolean fkActualizadaCorrectamente = filasAfectadas > 0;
 
-        if (!fkActualizada) {
+        if (!fkActualizadaCorrectamente) {
             redirectAttributes.addFlashAttribute("error", "Error al vincular la inscripción. Contacte a soporte.");
             return "redirect:/inscribirSocio";
         }
 
-        // 7. Éxito
         redirectAttributes.addFlashAttribute("exito", "¡Socio " + socio.getNombre() + " inscrito correctamente con ID de inscripción " + nuevaInscripcionId + "!");
-        return "redirect:/inscribirSocioExito"; // Redirigir a una página de éxito
+        return "redirect:/inscribirSocioExito"; 
     }
 
     // Muestra la página de éxito.

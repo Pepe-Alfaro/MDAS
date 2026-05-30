@@ -87,9 +87,9 @@ public class InscripcionRestController {
         int idNuevaInscripcion = inscripcionRepository.saveInscripcionIndividual(socio);
 
         if (idNuevaInscripcion > 0) {
-            boolean vinculado = socioRepository.updateInscripcionFk(dniTitular, idNuevaInscripcion);
+            boolean vinculado = socioRepository.updateInscripcionFk(dniTitular, idNuevaInscripcion) > 0;
             
-            if (vinculado) {
+            if (!vinculado) {
                 nuevaInscripcion.setIdInscripcion(idNuevaInscripcion);
                 return new ResponseEntity<>(nuevaInscripcion, HttpStatus.CREATED);
             } else {
@@ -149,9 +149,9 @@ public class InscripcionRestController {
         }
 
         // VINCULAR
-        boolean exito = socioRepository.updateInscripcionFk(dniNuevoMiembro, idInscripcion);
+        boolean exito = socioRepository.updateInscripcionFk(dniNuevoMiembro, idInscripcion) > 0;
 
-        if (exito) {
+        if (!exito) {
             //Aplicar la regla 8 de comentarios
             double nuevaCuota = recalcularYGuardarCuota(idInscripcion);
             

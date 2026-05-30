@@ -111,48 +111,45 @@ public class SocioRestController {
     }
     //(API) 1. Actualizar los campos de información de un socio, excepto el DNI (PATCH).
      
-    @PatchMapping("/{dni}")
-    public ResponseEntity<?> actualizarSocio(@PathVariable("dni") String dni, @RequestBody Socio socioUpdates) {
-        
-        // 1. Buscar el socio existente
-        Socio socioExistente = socioRepository.findSocioByDni(dni);
-        
-        if (socioExistente == null) {
-            return new ResponseEntity<>("No existe ningún socio con el DNI " + dni, HttpStatus.NOT_FOUND);
-        }
+    // CÓDIGO CORREGIDO EN SOCIORESTCONTROLLER.JAVA
 
-        // 2. Aplicar cambios 
-        
-        if (socioUpdates.getNombre() != null && !socioUpdates.getNombre().isEmpty()) {
-            socioExistente.setNombre(socioUpdates.getNombre());
-        }
-        if (socioUpdates.getApellidos() != null && !socioUpdates.getApellidos().isEmpty()) {
-            socioExistente.setApellidos(socioUpdates.getApellidos());
-        }
-        if (socioUpdates.getFechaNacimiento() != null) {
-            socioExistente.setFechaNacimiento(socioUpdates.getFechaNacimiento());
-        }
-        if (socioUpdates.getDireccion() != null && !socioUpdates.getDireccion().isEmpty()) {
-            socioExistente.setDireccion(socioUpdates.getDireccion());
-        }
-        if (socioUpdates.getFechaInscripcion() != null) {
-            socioExistente.setFechaInscripcion(socioUpdates.getFechaInscripcion());
-        }
-        
-        
-        if (socioUpdates.getTituloPatron() != socioExistente.getTituloPatron()) {
-        socioExistente.setTituloPatron(socioUpdates.getTituloPatron());
-        }
-
-        // 3. Guardar los cambios
-        boolean actualizado = socioRepository.updateSocio(socioExistente);
-
-        if (actualizado) {
-            return new ResponseEntity<>("Socio actualizado correctamente", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Error al actualizar el socio", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+@PatchMapping("/{dni}")
+public ResponseEntity<?> actualizarSocio(@PathVariable("dni") String dni, @RequestBody Socio socioUpdates) {
+    Socio socioExistente = socioRepository.findSocioByDni(dni);
+    if (socioExistente == null) {
+        return new ResponseEntity<>("No existe ningún socio con el DNI " + dni, HttpStatus.NOT_FOUND);
     }
+
+    // REFACTORIZACIÓN AUTOMÁTICA: Expresión extraída en una variable semántica limpia
+    boolean tieneNuevoNombre = socioUpdates.getNombre() != null && !socioUpdates.getNombre().isEmpty();
+    if (tieneNuevoNombre) {
+        socioExistente.setNombre(socioUpdates.getNombre());
+    }
+
+    if (socioUpdates.getApellidos() != null && !socioUpdates.getApellidos().isEmpty()) {
+        socioExistente.setApellidos(socioUpdates.getApellidos());
+    }
+    if (socioUpdates.getFechaNacimiento() != null) {
+        socioExistente.setFechaNacimiento(socioUpdates.getFechaNacimiento());
+    }
+    if (socioUpdates.getDireccion() != null && !socioUpdates.getDireccion().isEmpty()) {
+        socioExistente.setDireccion(socioUpdates.getDireccion());
+    }
+    if (socioUpdates.getFechaInscripcion() != null) {
+        socioExistente.setFechaInscripcion(socioUpdates.getFechaInscripcion());
+    }
+    
+    if (socioUpdates.getTituloPatron() != socioExistente.getTituloPatron()) {
+        socioExistente.setTituloPatron(socioUpdates.getTituloPatron());
+    }
+
+    boolean actualizado = socioRepository.updateSocio(socioExistente);
+    if (!actualizado) {
+        return new ResponseEntity<>("Error al actualizar el socio", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    return new ResponseEntity<>("Socio actualizado correctamente", HttpStatus.OK);
+}
 
     
      //Eliminar a un socio si no está vinculado a ninguna inscripción (DELETE).
